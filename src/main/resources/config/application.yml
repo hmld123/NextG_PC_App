@@ -1,0 +1,14 @@
+spring: 
+  # 国际化配置
+  messages: 
+    # 编码
+    encoding: utf-8
+    # 国际化资源文件路径
+    basename: i18n/messages
+# log 日志配置
+logging: 
+  config: classpath:./logbacks/logback-spring.xml
+  level:
+    dao: debug
+    org: 
+      mybatis: debug

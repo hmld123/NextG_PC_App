@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.hmld.core.mapper.SysManagerMapper">
+  <!-- 用户表 -->
+  <resultMap type="SysManagerEnity" id="sysManagerResult">
+    <!-- 主键 -->
+    <id property="managerUserPk" column="manager_user_pk"/>
+    <!-- 所属用户名 -->
+    <result property="managerUserName" column="manager_user_name"/>
+    <!-- 所属用户昵称 -->
+    <result property="managerNickName" column="manager_nick_name"/>
+    <!-- 注册密码 -->
+    <result property="managerPassword" column="manager_password"/>
+    <!-- 盐 -->
+    <result property="salt" column="salt"/>
+    <!-- 删除状态 -->
+    <result property="delFlg" column="del_flg"/>
+    <!-- 创建人 -->
+    <result property="creatBy" column="creat_by"/>
+    <!-- 创建时间 -->
+    <result property="creatTime" column="creat_time"/>
+    <!-- 更新人 -->
+    <result property="updateBy" column="update_by"/>
+    <!-- 更新时间 -->
+    <result property="updateTime" column="update_time"/>
+  </resultMap>
+</mapper>
