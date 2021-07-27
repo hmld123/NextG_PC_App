@@ -18,6 +18,7 @@
 		<jacksonVersion>2.12.4</jacksonVersion>
 		<!-- commons-lang3版本 -->
 		<commonsLang3>3.11</commonsLang3>
+		<mybatisVersion>3.5.7</mybatisVersion>
 	</properties>
 	<dependencies>
 		<!-- javafx-controls -->
@@ -85,6 +86,12 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${commonsLang3}</version>
+		</dependency>
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatisVersion}</version>
 		</dependency>
 	</dependencies>
 </project>
