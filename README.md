@@ -1,1 +1,1 @@
-# 基于 javaFX + springboot 的密码管理器
+# 基于 javaFX 的密码管理器

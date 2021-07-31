@@ -1,20 +1,15 @@
 package com.github.hmld;
+import com.github.hmld.common.utils.LoggerUtil;
+import com.github.hmld.view.MainView;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.github.hmld.view.LoginView;
-
-import javafx.application.Application;
 /**
  * 启动类
  * @author hmld
  *
  */
-@SpringBootApplication
 public class MainLancher {
   public static void main(String[] args) {
-    SpringApplication.run(LoginView.class, args);
-    Application.launch(LoginView.class, args);
+    LoggerUtil.infoMsgI18n(MainLancher.class, "sys.version",1);
+    MainView.launch(MainView.class, args);
   }
 }
