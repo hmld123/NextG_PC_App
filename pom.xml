@@ -15,7 +15,9 @@
     <!-- jackson版本 -->
     <jacksonVersion>2.12.4</jacksonVersion>
     <!-- commons-lang3版本 -->
-    <commonsLang3>3.11</commonsLang3>
+    <commonsLang3Version>3.11</commonsLang3Version>
+    <!-- commons-codec 版本 -->
+    <commonsCodecVersion>1.15</commonsCodecVersion>
     <!-- log4j 版本 -->
     <log4jVersion>2.14.1</log4jVersion>
     <!-- mybatis 版本 -->
@@ -64,8 +66,14 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>${commonsLang3}</version>
+      <version>${commonsLang3Version}</version>
     </dependency>
+    <!-- commons-codec -->
+	  <dependency>
+	      <groupId>commons-codec</groupId>
+	      <artifactId>commons-codec</artifactId>
+	      <version>${commonsCodecVersion}</version>
+	  </dependency>
     <!-- log4j-core -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
