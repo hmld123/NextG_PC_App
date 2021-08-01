@@ -26,10 +26,74 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 更新时间 -->
     <result property="updateTime" column="update_time"/>
   </resultMap>
-  
+  <!-- 查询sql -->
   <sql id="sysManagerVo">SELECT sm.manager_user_pk,sm.manager_nick_name ,sm.manager_password ,sm.salt ,sm.del_flg ,sm.creat_by ,sm.creat_time ,sm.update_by ,sm.update_time ,sm.manager_user_name FROM sys_manager sm </sql>
-
+  <!-- 查询所有 -->
   <select id="queryList" parameterType="com.github.hmld.core.enity.SysManagerEnity" resultMap="sysManagerResult">
-    <include refid="sysManagerVo"></include>
+    <include refid="sysManagerVo" />
+    <where>
+      sm.del_flg = 0
+      <if test="managerUserName != null and managerUserName != ''">
+        and sm.manager_user_name = #{managerUserName}
+      </if>
+      <if test="managerNickName != null and managerNickName != ''">
+        and sm.manager_nick_name like concat('%', #{managerNickName}, '%') 
+      </if>
+    </where>
   </select>
+  <!-- 查询一条 -->
+  <select id="queryOne" parameterType="string" resultMap="sysManagerResult">
+    <include refid="sysManagerVo" />
+    where sm.manager_user_pk = #{managerUserPk}
+  </select>
+  <!-- 添加一条 -->
+  <insert id="addOne" parameterType="com.github.hmld.core.enity.SysManagerEnity" >
+    insert into sys_manager (
+      manager_user_pk,
+      manager_user_name,
+      manager_nick_name,
+      manager_password,
+      salt,
+      del_flg,
+      creat_by,
+      creat_time,
+      <if test="updateBy != null and updateBy != ''">update_by,</if>
+      <if test="updateTime != null">update_time,</if>
+    )
+    values(
+      #{managerUserPk},
+      #{managerUserName},
+      #{managerNickName},
+      #{managerPassword},
+      #{salt},
+      #{delFlg},
+      #{creatBy},
+      #{creatTime},
+      <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+      <if test="updateTime != null">#{updateTime},</if>
+    )
+  </insert>
+  <!-- 更新一条 -->
+  <update id="updateOne" parameterType="com.github.hmld.core.enity.SysManagerEnity">
+    update sys_manager
+    <set>
+      <if test="managerNickName != null and managerNickName != ''">manager_nick_name = #{managerNickName},</if>
+      <if test="managerPassword != null and managerPassword != ''">manager_password = #{managerPassword},</if>
+      <if test="salt != null and salt != ''">salt = #{salt},</if>
+      <if test="delFlg != null and delFlg != ''">del_flg = #{delFlg},</if>
+      <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+      update_time = #{updateTime}
+    </set>
+    where manager_user_pk = #{managerUserPk}
+  </update>
+  <!-- 删除一条 -->
+  <delete id="delOne" parameterType="com.github.hmld.core.enity.SysManagerEnity">
+    update sys_manager
+    <set>
+      del_flg = 1,
+      update_by = #{updateBy},
+      update_time = #{updateTime}
+    </set>
+    where sm.manager_user_pk = #{managerUserPk}
+  </delete>
 </mapper>
