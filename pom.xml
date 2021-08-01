@@ -18,6 +18,10 @@
     <commonsLang3>3.11</commonsLang3>
     <!-- log4j 版本 -->
     <log4jVersion>2.14.1</log4jVersion>
+    <!-- mybatis 版本 -->
+    <mybatisVersion>3.5.7</mybatisVersion>
+    <!-- sqlite-jdbc 版本 -->
+    <sqliteJdbcVersion>3.34.0</sqliteJdbcVersion>
   </properties>
   <dependencies>
     <!-- javafx-controls -->
@@ -73,6 +77,18 @@
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-api</artifactId>
       <version>${log4jVersion}</version>
+    </dependency>
+    <!-- mybatis -->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>${mybatisVersion}</version>
+    </dependency>
+    <!-- sqlite-jdbc -->
+    <dependency>
+      <groupId>org.xerial</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
+      <version>${sqliteJdbcVersion}</version>
     </dependency>
   </dependencies>
 </project>

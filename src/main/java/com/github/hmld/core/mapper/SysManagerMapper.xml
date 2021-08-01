@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.hmld.core.mapper.SysManagerMapper">
   <!-- 用户表 -->
-  <resultMap type="SysManagerEnity" id="sysManagerResult">
+  <resultMap type="com.github.hmld.core.enity.SysManagerEnity" id="sysManagerResult">
     <!-- 主键 -->
     <id property="managerUserPk" column="manager_user_pk"/>
     <!-- 所属用户名 -->
@@ -26,4 +26,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 更新时间 -->
     <result property="updateTime" column="update_time"/>
   </resultMap>
+  
+  <sql id="sysManagerVo">SELECT sm.manager_user_pk,sm.manager_nick_name ,sm.manager_password ,sm.salt ,sm.del_flg ,sm.creat_by ,sm.creat_time ,sm.update_by ,sm.update_time ,sm.manager_user_name FROM sys_manager sm </sql>
+
+  <select id="queryList" parameterType="com.github.hmld.core.enity.SysManagerEnity" resultMap="sysManagerResult">
+    <include refid="sysManagerVo"></include>
+  </select>
 </mapper>
