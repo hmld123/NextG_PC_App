@@ -55,10 +55,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       manager_password,
       salt,
       del_flg,
-      creat_by,
-      creat_time,
       <if test="updateBy != null and updateBy != ''">update_by,</if>
       <if test="updateTime != null">update_time,</if>
+      creat_by,
+      creat_time
     )
     values(
       #{managerUserPk},
@@ -67,10 +67,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       #{managerPassword},
       #{salt},
       #{delFlg},
-      #{creatBy},
-      #{creatTime},
       <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
       <if test="updateTime != null">#{updateTime},</if>
+      #{creatBy},
+      #{creatTime}
     )
   </insert>
   <!-- 更新一条 -->
