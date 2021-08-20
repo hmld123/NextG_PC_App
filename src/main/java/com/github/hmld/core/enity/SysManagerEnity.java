@@ -87,9 +87,19 @@ public class SysManagerEnity extends BaseEnity{
   public void setManagerUserName(String managerUserName) {
     this.managerUserName = managerUserName;
   }
+  
   @Override
   public String toString() {
     return "SysManagerEnity [managerUserPk=" + managerUserPk + ", managerNickName=" + managerNickName
         + ", managerPassword=" + managerPassword + ", salt=" + salt + "]";
   }
+  
+	public SysManagerEnity() {super();}
+	public SysManagerEnity(String managerUserName, String managerNickName, String managerPassword) {
+		super();
+		this.managerUserName = managerUserName;
+		this.managerNickName = managerNickName;
+		this.managerPassword = managerPassword;
+	}
+  
 }

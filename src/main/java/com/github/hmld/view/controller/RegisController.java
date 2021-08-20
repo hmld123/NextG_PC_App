@@ -1,7 +1,10 @@
 package com.github.hmld.view.controller;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
+import com.github.hmld.common.utils.LoggerUtil;
+import com.github.hmld.common.utils.MsageUtils;
 import com.github.hmld.core.enity.SysManagerEnity;
 import com.github.hmld.core.service.ISysManagerService;
 import com.github.hmld.core.service.impl.SysManagerServiceImpl;
@@ -13,19 +16,26 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class RegisController {
   private ISysManagerService sysManagerService = new SysManagerServiceImpl();
   @FXML
+	private TextArea textAreaRegisMsg;
+  @FXML
   private Label lableRegisUsername;
+  @FXML
+  private Label lableRegisNickName;
   @FXML
   private Label lableRegisPassword;
   @FXML
   private Label lableRetryRegisPassword;
   @FXML
   private TextField textFildRegisUserName;
+  @FXML
+  private TextField textFildRegisNickName;
   @FXML
   private TextField textFildRegisPassword;
   @FXML
@@ -34,26 +44,57 @@ public class RegisController {
   private Button buttonBack;
   @FXML
   private Button buttonRegis;
+  /**
+   * 返回按钮
+   */
   @FXML
   public void buttonBackAction(ActionEvent e) {
     try {
       FXMLLoader loader = new FXMLLoader();
       loader.setLocation(loader.getClassLoader().getResource("view/login.fxml"));
+      loader.setResources(ResourceBundle.getBundle(MsageUtils.getPropertiesUrl().replaceAll(".properties", "")));
       Scene scene = new Scene(loader.load());
       Stage loginView = (Stage)((Node)e.getSource()).getScene().getWindow();
       loginView.hide();
       loginView.setScene(scene);
       loginView.show();
+      this.getTextAreaRegisMsg().setText(LoggerUtil.infoMsgI18n(getClass(), "system.jump.view","view/login.fxml"));
     } catch (IOException e1) {
       e1.printStackTrace();
+      this.getTextAreaRegisMsg().setText(LoggerUtil.errorMsgI18n(getClass(), "system.log.error",e1.getMessage()));
     }
   }
+  /**
+   * 注册按钮
+   * @param e
+   */
   @FXML
   public void buttonRegisAction(ActionEvent e) {
-    this.getTextFildRegisUserName();
-    this.getTextFildRegisPassword();
-    this.getTextFildRegisRetryPassword();
-    sysManagerService.regisUser(new SysManagerEnity());
+    String usreName = this.getTextFildRegisUserName().getText();
+    String nickName = this.getTextFildRegisNickName().getText();
+    String pass = this.getTextFildRegisPassword().getText();
+    String retryPass = this.getTextFildRegisRetryPassword().getText();
+    // 注册用户
+    if (
+    		usreName != null && !usreName.equals("") && 
+    		nickName != null && !nickName.equals("") && 
+    		pass != null && !pass.equals("") && 
+    		retryPass != null && !retryPass.equals("") && 
+    		pass.equals(retryPass)
+    ) {
+    	if (sysManagerService.regisUser(this.getTextAreaRegisMsg(),new SysManagerEnity(usreName, nickName, pass))) {
+				this.buttonBackAction(e);
+			}
+		}
+    else if (usreName == null || usreName.equals("")) {
+    	this.getTextAreaRegisMsg().setText(LoggerUtil.warnMsgI18n(getClass(), "regis.msg","用户名不能为空！"));
+		}
+    else if (nickName == null || nickName.equals("")) {
+    	this.getTextAreaRegisMsg().setText(LoggerUtil.warnMsgI18n(getClass(), "regis.msg","用户昵称不能为空！"));
+		}
+		else if (pass == null || pass.equals("") || retryPass == null || retryPass.equals("") || pass.equals(retryPass)) {
+			this.getTextAreaRegisMsg().setText(LoggerUtil.warnMsgI18n(getClass(), "regis.msg","用户密码不能为空不能为空或两次的密码不同！"));
+		}
   }
   public Label getLableRegisUsername() {
     return lableRegisUsername;
@@ -103,5 +144,29 @@ public class RegisController {
   public void setButtonRegis(Button buttonRegis) {
     this.buttonRegis = buttonRegis;
   }
+	public ISysManagerService getSysManagerService() {
+		return sysManagerService;
+	}
+	public void setSysManagerService(ISysManagerService sysManagerService) {
+		this.sysManagerService = sysManagerService;
+	}
+	public Label getLableRegisNickName() {
+		return lableRegisNickName;
+	}
+	public void setLableRegisNickName(Label lableRegisNickName) {
+		this.lableRegisNickName = lableRegisNickName;
+	}
+	public TextField getTextFildRegisNickName() {
+		return textFildRegisNickName;
+	}
+	public void setTextFildRegisNickName(TextField textFildRegisNickName) {
+		this.textFildRegisNickName = textFildRegisNickName;
+	}
+	public TextArea getTextAreaRegisMsg() {
+		return textAreaRegisMsg;
+	}
+	public void setTextAreaRegisMsg(TextArea textAreaRegisMsg) {
+		this.textAreaRegisMsg = textAreaRegisMsg;
+	}
   
 }

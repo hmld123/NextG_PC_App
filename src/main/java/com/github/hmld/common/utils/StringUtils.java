@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import com.github.hmld.common.core.text.StrFormatter;
 
@@ -388,4 +389,12 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
   public static <T> T cast(Object obj) {
     return (T) obj;
   }
+  /**
+   * 生成盐
+   * @return
+   */
+  public static String getSalt() {
+  	return UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8);
+  }
+  
 }

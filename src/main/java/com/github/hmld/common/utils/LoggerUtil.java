@@ -35,8 +35,9 @@ public class LoggerUtil {
    * @param clazz
    * @param message 日志信息
    */
-  public static void infoMsg(final Class<?> clazz,String message) {
+  public static String infoMsg(final Class<?> clazz,String message) {
     LoggerUtil.getManager(clazz).info(message);
+    return message;
   }
   /**
    * 自定义info 级别日志处理(带参数)
@@ -44,16 +45,19 @@ public class LoggerUtil {
    * @param message 日志信息
    * @param args 参数
    */
-  public static void infoMsg(final Class<?> clazz,String message,Object... args) {
+  public static String infoMsg(final Class<?> clazz,String message,Object... args) {
     LoggerUtil.getManager(clazz).info(message,args);
+    return StringUtils.format(message,args);
   }
   /**
    * 自定义info 级别日志处理，多语支持
    * @param clazz
    * @param key 多语资源键值
    */
-  public static void infoMsgI18n(final Class<?> clazz,String key) {
-    LoggerUtil.getManager(clazz).info(MsageUtils.getMsg(key));
+  public static String infoMsgI18n(final Class<?> clazz,String key) {
+  	String msg = MsageUtils.getMsg(key);
+    LoggerUtil.getManager(clazz).info(msg);
+    return msg;
   }
   /**
    * 自定义info 级别日志处理，多语支持(带参数)
@@ -61,16 +65,19 @@ public class LoggerUtil {
    * @param key 多语资源键值
    * @param args 参数
    */
-  public static void infoMsgI18n(final Class<?> clazz,String key,Object... args) {
-    LoggerUtil.getManager(clazz).info(MsageUtils.getMsg(key,args));
+  public static String infoMsgI18n(final Class<?> clazz,String key,Object... args) {
+  	String msg = MsageUtils.getMsg(key,args);
+    LoggerUtil.getManager(clazz).info(msg);
+    return msg;
   }
   /**
    * 自定义 warn 级别日志处理
    * @param clazz
    * @param message 日志信息
    */
-  public static void warnMsg(final Class<?> clazz,String message) {
+  public static String warnMsg(final Class<?> clazz,String message) {
     LoggerUtil.getManager(clazz).warn(message);
+    return message;
   }
   /**
    * 自定义 warn 级别日志处理(带参数)
@@ -78,16 +85,19 @@ public class LoggerUtil {
    * @param message 日志信息
    * @param args 参数
    */
-  public static void warnMsg(final Class<?> clazz,String message,Object... args) {
+  public static String warnMsg(final Class<?> clazz,String message,Object... args) {
     LoggerUtil.getManager(clazz).warn(message,args);
+    return StringUtils.format(message,args);
   }
   /**
    * 自定义 warn 级别日志处理，多语支持
    * @param clazz
    * @param key 多语资源键值
    */
-  public static void warnMsgI18n(final Class<?> clazz,String key) {
-    LoggerUtil.getManager(clazz).warn(MsageUtils.getMsg(key));
+  public static String warnMsgI18n(final Class<?> clazz,String key) {
+  	String msg = MsageUtils.getMsg(key);
+    LoggerUtil.getManager(clazz).warn(msg);
+    return msg;
   }
   /**
    * 自定义 warn 级别日志处理，多语支持(带参数)
@@ -95,16 +105,19 @@ public class LoggerUtil {
    * @param key 多语资源键值
    * @param args 参数
    */
-  public static void warnMsgI18n(final Class<?> clazz,String key,Object... args) {
-    LoggerUtil.getManager(clazz).warn(MsageUtils.getMsg(key,args));
+  public static String warnMsgI18n(final Class<?> clazz,String key,Object... args) {
+  	String msg = MsageUtils.getMsg(key,args);
+    LoggerUtil.getManager(clazz).warn(msg);
+    return msg;
   }
   /**
    * 自定义 debug 级别日志处理
    * @param clazz
    * @param message 日志信息
    */
-  public static void debugMsg(final Class<?> clazz,String message) {
+  public static String debugMsg(final Class<?> clazz,String message) {
     LoggerUtil.getManager(clazz).debug(message);
+    return message;
   }
   /**
    * 自定义 debug 级别日志处理(带参数)
@@ -112,16 +125,19 @@ public class LoggerUtil {
    * @param message 日志信息
    * @param args 参数
    */
-  public static void debugMsg(final Class<?> clazz,String message,Object... args) {
+  public static String debugMsg(final Class<?> clazz,String message,Object... args) {
     LoggerUtil.getManager(clazz).debug(message,args);
+    return StringUtils.format(message,args);
   }
   /**
    * 自定义 debug 级别日志处理，多语支持
    * @param clazz
    * @param key 多语资源键值
    */
-  public static void debugMsgI18n(final Class<?> clazz,String key) {
-    LoggerUtil.getManager(clazz).debug(MsageUtils.getMsg(key));
+  public static String debugMsgI18n(final Class<?> clazz,String key) {
+  	String msg = MsageUtils.getMsg(key);
+    LoggerUtil.getManager(clazz).debug(msg);
+    return msg;
   }
   /**
    * 自定义 debug 级别日志处理，多语支持(带参数)
@@ -129,16 +145,19 @@ public class LoggerUtil {
    * @param key 多语资源键值
    * @param args 参数
    */
-  public static void debugMsgI18n(final Class<?> clazz,String key,Object... args) {
-    LoggerUtil.getManager(clazz).debug(MsageUtils.getMsg(key,args));
+  public static String debugMsgI18n(final Class<?> clazz,String key,Object... args) {
+  	String msg = MsageUtils.getMsg(key,args);
+    LoggerUtil.getManager(clazz).debug(msg);
+    return msg;
   }
   /**
    * 自定义 error 级别日志处理
    * @param clazz
    * @param message 日志信息
    */
-  public static void errorMsg(final Class<?> clazz,String message) {
+  public static String errorMsg(final Class<?> clazz,String message) {
     LoggerUtil.getManager(clazz).error(message);
+    return message;
   }
   /**
    * 自定义 error 级别日志处理(带参数)
@@ -146,16 +165,19 @@ public class LoggerUtil {
    * @param message 日志信息
    * @param args 参数
    */
-  public static void errorMsg(final Class<?> clazz,String message,Object... args) {
+  public static String errorMsg(final Class<?> clazz,String message,Object... args) {
     LoggerUtil.getManager(clazz).error(message,args);
+    return StringUtils.format(message,args);
   }
   /**
    * 自定义 error 级别日志处理，多语支持
    * @param clazz
    * @param key 多语资源键值
    */
-  public static void errorMsgI18n(final Class<?> clazz,String key) {
-    LoggerUtil.getManager(clazz).error(MsageUtils.getMsg(key));
+  public static String errorMsgI18n(final Class<?> clazz,String key) {
+  	String msg = MsageUtils.getMsg(key);
+    LoggerUtil.getManager(clazz).error(msg);
+    return msg;
   }
   /**
    * 自定义 error 级别日志处理，多语支持(带参数)
@@ -163,7 +185,9 @@ public class LoggerUtil {
    * @param key 多语资源键值
    * @param args 参数
    */
-  public static void errorMsgI18n(final Class<?> clazz,String key,Object... args) {
-    LoggerUtil.getManager(clazz).error(MsageUtils.getMsg(key,args));
+  public static String errorMsgI18n(final Class<?> clazz,String key,Object... args) {
+  	String msg = MsageUtils.getMsg(key,args);
+    LoggerUtil.getManager(clazz).error(msg);
+    return msg;
   }
 }

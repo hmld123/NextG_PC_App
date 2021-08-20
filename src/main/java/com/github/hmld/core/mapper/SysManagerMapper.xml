@@ -42,9 +42,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </where>
   </select>
   <!-- 查询一条 -->
+  <select id="queryOneByUserName" parameterType="string" resultMap="sysManagerResult">
+    <include refid="sysManagerVo" />
+    where sm.manager_user_name = #{managerUserPk}
+  </select>
+  <!-- 通过用户名 查询一条 -->
   <select id="queryOne" parameterType="string" resultMap="sysManagerResult">
     <include refid="sysManagerVo" />
-    where sm.manager_user_pk = #{managerUserPk}
+    where sm.manager_user_pk = #{managerUserName}
   </select>
   <!-- 添加一条 -->
   <insert id="addOne" parameterType="com.github.hmld.core.enity.SysManagerEnity" >

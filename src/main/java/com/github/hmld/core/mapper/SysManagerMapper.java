@@ -26,6 +26,12 @@ public interface SysManagerMapper {
    */
   public SysManagerEnity queryOne(String managerUserPk);
   /**
+   * 通过用户名 查询一条
+   * @param managerUserName 所属用户名
+   * @return 结果
+   */
+  public SysManagerEnity queryOneByUserName(String managerUserName);
+  /**
    * 添加一条
    * @param sysManagerEnity 参数
    * @return 结果数
