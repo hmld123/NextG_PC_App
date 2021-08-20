@@ -1,18 +1,11 @@
 package com.github.hmld.view.controller;
-
-import java.io.IOException;
-import java.util.ResourceBundle;
-
-import com.github.hmld.common.utils.LoggerUtil;
-import com.github.hmld.common.utils.MsageUtils;
+import com.github.hmld.common.utils.view.ViewUtil;
 import com.github.hmld.core.service.ISysManagerService;
 import com.github.hmld.core.service.impl.SysManagerServiceImpl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -42,20 +35,8 @@ public class LoginController {
   
   @FXML
   public void buttonRegisAction(ActionEvent e) {
-    try {
-      FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(loader.getClassLoader().getResource("view/regis.fxml"));
-      loader.setResources(ResourceBundle.getBundle(MsageUtils.getPropertiesUrl().replaceAll(".properties", "")));
-      Scene scene = new Scene(loader.load());
-      Stage loginView = (Stage)((Node)e.getSource()).getScene().getWindow();
-      loginView.hide();
-      loginView.setScene(scene);
-      loginView.show();
-      LoggerUtil.infoMsgI18n(getClass(), "system.jump.view","view/regis.fxml");
-    } catch (IOException e1) {
-      e1.printStackTrace();
-      this.getTextAreaLoginMsg().setText(LoggerUtil.errorMsgI18n(getClass(), "system.log.error",e1.getMessage()));
-    }
+  	Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+  	ViewUtil.goToStage(this.getTextAreaLoginMsg(),getClass(), oldStage, "view/regis.fxml");
   }
   
   @FXML
@@ -63,7 +44,8 @@ public class LoginController {
     String userName = this.getFieldLoginUsername().getText();
     String password = this.getFieldLoginPassword().getText();
     if (sysManagerService.loginUser(this.getTextAreaLoginMsg(),userName, password)) {
-    	
+    	Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+    	ViewUtil.goToStage(this.getTextAreaLoginMsg(),getClass(), oldStage, "view/passwordmanager/pm.fxml");
 		}
   }
 

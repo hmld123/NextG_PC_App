@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+      <AnchorPane id="toppane" prefHeight="50.0" prefWidth="900.0">
+         <children>
+            <ImageView fitHeight="59.0" fitWidth="118.0" layoutX="14.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="775.0" AnchorPane.topAnchor="7.0">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../static/images/title.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="855.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../static/images/setting.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="bodypane" prefHeight="554.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <children>
+            <TabPane prefHeight="475.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <tabs>
+                <Tab text="密码管理">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextField layoutX="643.0" layoutY="5.0" AnchorPane.rightAnchor="95.4" AnchorPane.topAnchor="5.0" />
+                              <Button layoutX="813.0" layoutY="5.0" mnemonicParsing="false" text="搜索" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="5.0" />
+                              <TableView layoutY="79.0" prefHeight="383.0" prefWidth="900.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="应用名" />
+                                  <TableColumn prefWidth="75.0" text="应用网站" />
+                                    <TableColumn prefWidth="75.0" text="注册用户名" />
+                                    <TableColumn prefWidth="75.0" text="注册昵称" />
+                                    <TableColumn prefWidth="75.0" text="注册邮箱" />
+                                    <TableColumn prefWidth="75.0" text="注册手机号" />
+                                    <TableColumn prefWidth="304.0" text="密码" />
+                                    <TableColumn prefWidth="75.0" text="使用状态" />
+                                    <TableColumn prefWidth="75.0" text="操作" />
+                                </columns>
+                              </TableView>
+                              <Pagination layoutY="33.0" prefHeight="464.0" prefWidth="898.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="33.0">
+                                 <padding>
+                                    <Insets bottom="-10.0" />
+                                 </padding>
+                              </Pagination>
+                              <Button layoutX="14.0" layoutY="5.0" mnemonicParsing="false" text="添加" />
+                              <Button layoutX="78.0" layoutY="5.0" mnemonicParsing="false" text="修改" />
+                              <Button layoutX="142.0" layoutY="5.0" mnemonicParsing="false" text="删除" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </AnchorPane>
+  </children>
+</VBox>

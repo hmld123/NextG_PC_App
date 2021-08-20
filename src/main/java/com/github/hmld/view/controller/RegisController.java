@@ -1,19 +1,14 @@
 package com.github.hmld.view.controller;
 
-import java.io.IOException;
-import java.util.ResourceBundle;
-
 import com.github.hmld.common.utils.LoggerUtil;
-import com.github.hmld.common.utils.MsageUtils;
+import com.github.hmld.common.utils.view.ViewUtil;
 import com.github.hmld.core.enity.SysManagerEnity;
 import com.github.hmld.core.service.ISysManagerService;
 import com.github.hmld.core.service.impl.SysManagerServiceImpl;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -49,20 +44,8 @@ public class RegisController {
    */
   @FXML
   public void buttonBackAction(ActionEvent e) {
-    try {
-      FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(loader.getClassLoader().getResource("view/login.fxml"));
-      loader.setResources(ResourceBundle.getBundle(MsageUtils.getPropertiesUrl().replaceAll(".properties", "")));
-      Scene scene = new Scene(loader.load());
-      Stage loginView = (Stage)((Node)e.getSource()).getScene().getWindow();
-      loginView.hide();
-      loginView.setScene(scene);
-      loginView.show();
-      this.getTextAreaRegisMsg().setText(LoggerUtil.infoMsgI18n(getClass(), "system.jump.view","view/login.fxml"));
-    } catch (IOException e1) {
-      e1.printStackTrace();
-      this.getTextAreaRegisMsg().setText(LoggerUtil.errorMsgI18n(getClass(), "system.log.error",e1.getMessage()));
-    }
+    Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+  	ViewUtil.goToStage(this.getTextAreaRegisMsg(),getClass(), oldStage, "view/login.fxml");
   }
   /**
    * 注册按钮
