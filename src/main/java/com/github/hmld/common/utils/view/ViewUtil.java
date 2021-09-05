@@ -38,4 +38,25 @@ public class ViewUtil {
       msgArea.setText(LoggerUtil.errorMsgI18n(clazz, "system.log.error",e1.getMessage()));
     }
 	}
+	/**
+	 * 打开新页面
+	 * @param clazz
+	 * @param oldStage
+	 * @param viewUrl 页面url
+	 */
+	public static Scene openToStage(final Class<?> clazz,String viewUrl) {
+		try {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(loader.getClassLoader().getResource(viewUrl));
+      loader.setResources(ResourceBundle.getBundle(MsageUtils.getPropertiesUrl().replaceAll(".properties", "")));
+      Scene scene = new Scene(loader.load());
+      LoggerUtil.infoMsgI18n(clazz, "system.jump.view",viewUrl);
+      return scene;
+    } catch (IOException e1) {
+      e1.printStackTrace();
+      LoggerUtil.errorMsgI18n(clazz, "system.log.error",e1.getMessage());
+      return null;
+    }
+	}
+	
 }

@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import org.apache.ibatis.session.SqlSession;
 
 import com.github.hmld.common.utils.LoggerUtil;
+import com.github.hmld.common.utils.LoginPool;
 import com.github.hmld.common.utils.MsageUtils;
 import com.github.hmld.common.utils.SqliteJDBCUtil;
 
@@ -30,6 +31,7 @@ public class MainView extends Application {
 			public void handle(WindowEvent event) {
 				SqlSession session = SqliteJDBCUtil.getCurrentSqlSession();
 				session.close();
+				LoginPool.loginOut();
 				LoggerUtil.infoMsgI18n(getClass(),"system.log.info", "Session is close!");
 			}
 		});

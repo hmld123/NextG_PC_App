@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -14,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.hmld.view.passwordmanager.controller.PassWordManagerController">
   <children>
       <AnchorPane id="toppane" prefHeight="50.0" prefWidth="900.0">
          <children>
@@ -48,28 +47,23 @@
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <TextField layoutX="643.0" layoutY="5.0" AnchorPane.rightAnchor="95.4" AnchorPane.topAnchor="5.0" />
-                              <Button layoutX="813.0" layoutY="5.0" mnemonicParsing="false" text="搜索" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="5.0" />
-                              <TableView layoutY="79.0" prefHeight="383.0" prefWidth="900.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
+                              <Button fx:id="buttonQuery" layoutX="813.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonQueryAction" text="搜索" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="5.0" />
+                              <Button fx:id="buttonAdd" layoutX="14.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonAddAction" text="添加" />
+                              <Button fx:id="buttonEdit" layoutX="78.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonEditAction" text="修改" />
+                              <Button fx:id="buttonDel" layoutX="142.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonDelAction" text="删除" />
+                              <TableView fx:id="pmDataTable" layoutY="34.0" prefHeight="383.0" prefWidth="900.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="应用名" />
-                                  <TableColumn prefWidth="75.0" text="应用网站" />
-                                    <TableColumn prefWidth="75.0" text="注册用户名" />
-                                    <TableColumn prefWidth="75.0" text="注册昵称" />
-                                    <TableColumn prefWidth="75.0" text="注册邮箱" />
-                                    <TableColumn prefWidth="75.0" text="注册手机号" />
-                                    <TableColumn prefWidth="304.0" text="密码" />
-                                    <TableColumn prefWidth="75.0" text="使用状态" />
-                                    <TableColumn prefWidth="75.0" text="操作" />
+                                  <TableColumn fx:id="colAppName" prefWidth="75.0" text="应用名" />
+                                  <TableColumn fx:id="colAppWebUrl" prefWidth="75.0" text="应用网站" />
+                                  <TableColumn fx:id="colAccountUserName" prefWidth="75.0" text="注册用户名" />
+                                  <TableColumn fx:id="colAccountNickName" prefWidth="75.0" text="注册昵称" />
+                                  <TableColumn fx:id="colAccountEmail" prefWidth="75.0" text="注册邮箱" />
+                                  <TableColumn fx:id="colAccountPhoneNumber" prefWidth="75.0" text="注册手机号" />
+                                  <TableColumn fx:id="colAccountPassword" prefWidth="304.0" text="密码" />
+                                  <TableColumn fx:id="colUseFlg" prefWidth="75.0" text="使用状态" />
+                                  <TableColumn fx:id="colActions" prefWidth="162.0" text="操作" />
                                 </columns>
                               </TableView>
-                              <Pagination layoutY="33.0" prefHeight="464.0" prefWidth="898.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="33.0">
-                                 <padding>
-                                    <Insets bottom="-10.0" />
-                                 </padding>
-                              </Pagination>
-                              <Button layoutX="14.0" layoutY="5.0" mnemonicParsing="false" text="添加" />
-                              <Button layoutX="78.0" layoutY="5.0" mnemonicParsing="false" text="修改" />
-                              <Button layoutX="142.0" layoutY="5.0" mnemonicParsing="false" text="删除" />
                            </children>
                         </AnchorPane>
                   </content>

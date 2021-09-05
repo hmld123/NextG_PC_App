@@ -12,6 +12,7 @@ import com.github.hmld.common.core.emnu.SYSDEFAULT;
 import com.github.hmld.common.utils.DateUtils;
 import com.github.hmld.common.utils.EncryptEngine;
 import com.github.hmld.common.utils.LoggerUtil;
+import com.github.hmld.common.utils.LoginPool;
 import com.github.hmld.common.utils.SqliteJDBCUtil;
 import com.github.hmld.common.utils.StringUtils;
 import com.github.hmld.core.enity.SysManagerEnity;
@@ -79,7 +80,8 @@ public class SysManagerServiceImpl implements ISysManagerService {
 			}
 			if (EncryptEngine.decode(manager.getManagerPassword().getBytes(), getEncodeData(manager), manager.getSalt().getBytes()).equals(passWord)) {
 				msgArea.setText(LoggerUtil.warnMsgI18n(getClass(), "login.msg","{" + userName + "}登录成功！"));
-	    	return true;
+				LoginPool.loginIn(getClass(), manager.getManagerUserPk());
+				return true;
 			}
 			else {
 				msgArea.setText(LoggerUtil.warnMsgI18n(getClass(), "login.msg","{" + userName + "}登录失败！"));
