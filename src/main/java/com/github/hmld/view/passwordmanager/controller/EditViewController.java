@@ -7,7 +7,6 @@ package com.github.hmld.view.passwordmanager.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -35,10 +34,11 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class AddViewController {
+public class EditViewController {
 	private IDataPasswordService dataSerivce = new DataPasswordServiceImpl();
 	private DataPasswordEnity headerData;
-	private int addNum = 0;
+	private int editNum = 0;
+	private static String oldSalt="";
 	private static SysManagerEnity headerManager;
 	@FXML
 	private TextField textFieldAppName;
@@ -82,12 +82,11 @@ public class AddViewController {
     	if (LoginPool.getLogin(getClass())==null || StringUtils.isEmpty(LoginPool.getLogin(getClass()))) {
     		LoggerUtil.errorMsgI18n(getClass(), "system.log.error","获取登录信息异常");
 			}
-			if (this.getHeaderData()==null) {
-				this.setHeaderData(new DataPasswordEnity());
+			if (this.getHeaderData()==null || StringUtils.isEmpty(this.getHeaderData().getPasswordPk())) {
+				return;
 			}
 			// 获取盐
 	  	String salt = StringUtils.getSalt();
-	  	this.getHeaderData().setPasswordPk(UUID.randomUUID().toString());
 	  	this.getHeaderData().setAncestors("0");
 	  	this.getHeaderData().setGrade(0);
 	  	this.getHeaderData().setManagerUserPk(LoginPool.getLogin(getClass()));
@@ -106,12 +105,12 @@ public class AddViewController {
 			this.getHeaderData().setAccountEmail(email);
 			this.getHeaderData().setAccountPhoneNumber(phoneNumber);
 			this.getHeaderData().setAccountPassword(password);
-			this.getHeaderData().setCreatBy(getManager().getManagerUserName());
-			this.getHeaderData().setCreatTime(DateUtils.getNowDate().getTime());
+			this.getHeaderData().setUpdateBy(getManager().getManagerUserName());
+			this.getHeaderData().setUpdateTime(DateUtils.getNowDate().getTime());
 			this.getHeaderData().setDelFlg(DelFlgEmnu.USE_TYPE);
 			this.getHeaderData().setUseFlg(UseFlgEmnu.USE_TYPE);
-			this.addNum = dataSerivce.addEnity(this.getHeaderData());
-			LoggerUtil.infoMsgI18n(getClass(), "system.log.info","成功添加["+addNum+"]条");
+			this.editNum = dataSerivce.editEnity(this.getHeaderData());
+			LoggerUtil.infoMsgI18n(getClass(), "system.log.info","成功添加["+editNum+"]条");
     } catch (Exception ex) {
     	LoggerUtil.errorMsgI18n(getClass(), "system.log.error",ex.getMessage());
     } 
@@ -231,12 +230,36 @@ public class AddViewController {
   	if (headerManager==null) {
   		SqlSession session = SqliteJDBCUtil.getCurrentSqlSession();
     	SysManagerMapper mapper = session.getMapper(SysManagerMapper.class);
-    	SysManagerEnity manager = mapper.queryOne(LoginPool.getLogin(AddViewController.class));
+    	SysManagerEnity manager = mapper.queryOne(LoginPool.getLogin(EditViewController.class));
     	headerManager = manager;
 		}
   	return headerManager;
   }
-	public int getAddNum() {
-		return addNum;
+	public int geteditNum() {
+		return editNum;
+	}
+	
+	public void initData(DataPasswordEnity data) {
+		try {
+			if (data!=null) {
+				oldSalt = data.getSalt();
+				this.headerData = data;
+				this.getTextFieldAppName().setText(this.headerData.getAppName());
+				this.getTextFieldAppUrl().setText(this.headerData.getAppWebUrl());
+				this.getTextFieldAccountNickName().setText(this.headerData.getAccountNickName());
+				String salt = EncryptEngine.decode(oldSalt.getBytes(), getSaltEncodeData(data), getManager().getSalt().getBytes());
+				data.setSalt(salt);
+				String accountUserName = EncryptEngine.decode(this.headerData.getAccountUserName().getBytes(), getEncodeData(data), salt.getBytes());
+				String accountEmail = EncryptEngine.decode(this.headerData.getAccountEmail().getBytes(), getEncodeData(data), salt.getBytes());
+				String accountPhoneNumber = EncryptEngine.decode(this.headerData.getAccountPhoneNumber().getBytes(), getEncodeData(data), salt.getBytes());
+				String apssword = EncryptEngine.decode(this.headerData.getAccountPassword().getBytes(), getEncodeData(data), salt.getBytes());
+				this.getTextFieldAccountUserName().setText(accountUserName);
+				this.getTextFieldAccountEmail().setText(accountEmail);
+				this.getTextFieldAccountPhoneNumber().setText(accountPhoneNumber);
+				this.getTextAreaAccountPassword().setText(apssword);
+			}
+		} catch (Exception ex) {
+	  	LoggerUtil.errorMsgI18n(getClass(), "system.log.error",ex.getMessage());
+	  } 
 	}
 }

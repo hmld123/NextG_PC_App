@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="478.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.hmld.view.passwordmanager.controller.AddViewController">
+<AnchorPane prefHeight="478.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.hmld.view.passwordmanager.controller.EditViewController">
    <children>
       <TextField fx:id="textFieldAppName" layoutX="95.0" layoutY="26.0" prefHeight="23.0" prefWidth="263.0" promptText="%pwmanager.addview.textfield.app_name" />
       <TextField fx:id="textFieldAppUrl" layoutX="95.0" layoutY="55.0" prefHeight="23.0" prefWidth="263.0" promptText="%pwmanager.addview.textfield.app_url" />

@@ -16,4 +16,22 @@ public interface IDataPasswordService {
 	 * @return
 	 */
 	public List<DataPasswordEnity> queryEnityList(DataPasswordEnity enity);
+	/**
+	 * 添加一条
+	 * @param enity
+	 * @return 
+	 */
+	public int addEnity(DataPasswordEnity enity);
+	/**
+	 * 修改一条
+	 * @param enity
+	 * @return
+	 */
+	public int editEnity(DataPasswordEnity enity);
+	/**
+	 * 删除一条
+	 * @param enity
+	 * @return
+	 */
+	public int delEnity(DataPasswordEnity enity);
 }

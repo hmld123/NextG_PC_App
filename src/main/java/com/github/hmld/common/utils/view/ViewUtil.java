@@ -1,6 +1,8 @@
 package com.github.hmld.common.utils.view;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.github.hmld.common.utils.LoggerUtil;
@@ -44,14 +46,17 @@ public class ViewUtil {
 	 * @param oldStage
 	 * @param viewUrl 页面url
 	 */
-	public static Scene openToStage(final Class<?> clazz,String viewUrl) {
+	public static Map<String, Object> openToStage(final Class<?> clazz,String viewUrl) {
 		try {
       FXMLLoader loader = new FXMLLoader();
       loader.setLocation(loader.getClassLoader().getResource(viewUrl));
       loader.setResources(ResourceBundle.getBundle(MsageUtils.getPropertiesUrl().replaceAll(".properties", "")));
       Scene scene = new Scene(loader.load());
+      Map<String, Object> data = new HashMap<String, Object>();
+      data.put("controller",loader.getController());
+      data.put("scene",scene);
       LoggerUtil.infoMsgI18n(clazz, "system.jump.view",viewUrl);
-      return scene;
+      return data;
     } catch (IOException e1) {
       e1.printStackTrace();
       LoggerUtil.errorMsgI18n(clazz, "system.log.error",e1.getMessage());

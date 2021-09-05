@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.hmld.view.passwordmanager.controller.PassWordManagerController">
+<VBox prefHeight="600.0" prefWidth="662.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.hmld.view.passwordmanager.controller.PassWordManagerController">
   <children>
       <AnchorPane id="toppane" prefHeight="50.0" prefWidth="900.0">
          <children>
@@ -25,7 +25,7 @@
                   <Image url="@../../static/images/title.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="855.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="855.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="45.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <viewport>
                   <Rectangle2D />
                </viewport>
@@ -42,26 +42,22 @@
          <children>
             <TabPane prefHeight="475.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <tabs>
-                <Tab text="密码管理">
+                <Tab text="%pwmanager.mainview.tab.lable">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <TextField layoutX="643.0" layoutY="5.0" AnchorPane.rightAnchor="95.4" AnchorPane.topAnchor="5.0" />
-                              <Button fx:id="buttonQuery" layoutX="813.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonQueryAction" text="搜索" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="5.0" />
-                              <Button fx:id="buttonAdd" layoutX="14.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonAddAction" text="添加" />
-                              <Button fx:id="buttonEdit" layoutX="78.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonEditAction" text="修改" />
-                              <Button fx:id="buttonDel" layoutX="142.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonDelAction" text="删除" />
-                              <TableView fx:id="pmDataTable" layoutY="34.0" prefHeight="383.0" prefWidth="900.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+                              <Button fx:id="buttonQuery" layoutX="813.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonQueryAction" text="%pwmanager.mainview.button.search" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="5.0" />
+                              <Button fx:id="buttonAdd" layoutX="14.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonAddAction" text="%pwmanager.mainview.button.add_enity" />
+                              <Button fx:id="buttonEdit" layoutX="78.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonEditAction" text="%pwmanager.mainview.button.edit_enity" />
+                              <Button fx:id="buttonDel" layoutX="142.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonDelAction" text="%pwmanager.mainview.button.delt_enity" />
+                              <TableView fx:id="pmDataTable" layoutY="34.0" prefHeight="383.0" prefWidth="900.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
                                 <columns>
-                                  <TableColumn fx:id="colAppName" prefWidth="75.0" text="应用名" />
-                                  <TableColumn fx:id="colAppWebUrl" prefWidth="75.0" text="应用网站" />
-                                  <TableColumn fx:id="colAccountUserName" prefWidth="75.0" text="注册用户名" />
-                                  <TableColumn fx:id="colAccountNickName" prefWidth="75.0" text="注册昵称" />
-                                  <TableColumn fx:id="colAccountEmail" prefWidth="75.0" text="注册邮箱" />
-                                  <TableColumn fx:id="colAccountPhoneNumber" prefWidth="75.0" text="注册手机号" />
-                                  <TableColumn fx:id="colAccountPassword" prefWidth="304.0" text="密码" />
-                                  <TableColumn fx:id="colUseFlg" prefWidth="75.0" text="使用状态" />
-                                  <TableColumn fx:id="colActions" prefWidth="162.0" text="操作" />
+                                  <TableColumn fx:id="colAppName" prefWidth="75.0" text="%pwmanager.mainview.tablecol.app_name" />
+                                  <TableColumn fx:id="colAppWebUrl" prefWidth="75.0" text="%pwmanager.mainview.tablecol.app_weburl" />
+                                  <TableColumn fx:id="colAccountNickName" prefWidth="75.0" text="%pwmanager.mainview.tablecol.account_nickname" />
+                                  <TableColumn fx:id="colUseFlg" prefWidth="75.0" text="%pwmanager.mainview.tablecol.use_flg" />
+                                  <TableColumn fx:id="colActions" prefWidth="162.0" text="%pwmanager.mainview.tablecol.actions" />
                                 </columns>
                               </TableView>
                            </children>

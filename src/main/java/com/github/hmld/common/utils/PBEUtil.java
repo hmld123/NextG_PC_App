@@ -77,7 +77,7 @@ public class PBEUtil {
 		//实例化
 		Cipher cipher = Cipher.getInstance(ALGORITHM);
 		//初始化  
-        cipher.init(Cipher.DECRYPT_MODE, key, spec);
+    cipher.init(Cipher.DECRYPT_MODE, key, spec);
 		//执行操作  
 		return cipher.doFinal(data);  
 	}

@@ -99,6 +99,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       update_by = #{updateBy},
       update_time = #{updateTime}
     </set>
-    where sm.manager_user_pk = #{managerUserPk}
+    where manager_user_pk = #{managerUserPk}
   </delete>
 </mapper>
