@@ -132,7 +132,7 @@ public class PassWordManagerController {
 		getColActions().setCellFactory(new Callback<TableColumn<DataPasswordEnity,String>, TableCell<DataPasswordEnity,String>>() {
 			@Override
 			public TableCell<DataPasswordEnity, String> call(TableColumn<DataPasswordEnity, String> param) {
-				TableCell<DataPasswordEnity, String> cell = new TableCell<DataPasswordEnity, String>(){
+				 TableCell<DataPasswordEnity, String> cell = new TableCell<DataPasswordEnity, String>(){
 					@Override
 					protected void updateItem(String item, boolean empty) {
 						super.updateItem(item, empty);
@@ -145,7 +145,7 @@ public class PassWordManagerController {
 							editButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 								@Override
 								public void handle(MouseEvent event) {
-									DataPasswordEnity editEnity = getPmDataTable().getSelectionModel().getSelectedItem();
+									DataPasswordEnity editEnity = getPmDataTable().getItems().get(getIndex());
 									String oldSalt = editEnity.getSalt();
 									Window win = ((Node)event.getSource()).getScene().getWindow();
 									Map<String, Object> viewData = ViewUtil.openToStage(getClass(), "view/passwordmanager/editView/index.fxml");
@@ -178,7 +178,7 @@ public class PassWordManagerController {
 							delButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 								@Override
 								public void handle(MouseEvent event) {
-									DataPasswordEnity editEnity = getPmDataTable().getSelectionModel().getSelectedItem();
+									DataPasswordEnity editEnity = getPmDataTable().getItems().get(getIndex());
 									int delNum = passwordService.delEnity(editEnity);
 									if (delNum>0) {
 										doSearch();
