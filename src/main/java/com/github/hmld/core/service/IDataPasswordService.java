@@ -11,6 +11,12 @@ import com.github.hmld.core.enity.DataPasswordEnity;
 
 public interface IDataPasswordService {
 	/**
+	 * 查询总个数
+	 * @param dataPasswordEnity
+	 * @return
+	 */
+	public Integer queryCountNum(DataPasswordEnity enity);
+	/**
 	 * 查询数据
 	 * @param enity
 	 * @return

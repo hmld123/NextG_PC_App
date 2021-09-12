@@ -13,6 +13,12 @@ import com.github.hmld.core.enity.DataPasswordEnity;
  */
 @Mapper
 public interface DataPasswordMapper {
+	/**
+	 * 查询总个数
+	 * @param dataPasswordEnity
+	 * @return
+	 */
+	public Integer queryCountNum(DataPasswordEnity dataPasswordEnity);
   /**
    * 查询所有
    * @param dataPasswordEnity 参数

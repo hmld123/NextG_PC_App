@@ -9,19 +9,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.ibatis.session.SqlSession;
-
 import com.github.hmld.common.core.emnu.DelFlgEmnu;
 import com.github.hmld.common.core.emnu.UseFlgEmnu;
+import com.github.hmld.common.core.enity.base.BaseController;
 import com.github.hmld.common.utils.DateUtils;
 import com.github.hmld.common.utils.EncryptEngine;
 import com.github.hmld.common.utils.LoggerUtil;
 import com.github.hmld.common.utils.LoginPool;
-import com.github.hmld.common.utils.SqliteJDBCUtil;
 import com.github.hmld.common.utils.StringUtils;
 import com.github.hmld.core.enity.DataPasswordEnity;
-import com.github.hmld.core.enity.SysManagerEnity;
-import com.github.hmld.core.mapper.SysManagerMapper;
 import com.github.hmld.core.service.IDataPasswordService;
 import com.github.hmld.core.service.impl.DataPasswordServiceImpl;
 import com.github.hmld.pwm.enigine.PassWordEnigine;
@@ -35,11 +31,10 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class AddViewController {
+public class AddViewController extends BaseController{
 	private IDataPasswordService dataSerivce = new DataPasswordServiceImpl();
 	private DataPasswordEnity headerData;
 	private int addNum = 0;
-	private static SysManagerEnity headerManager;
 	@FXML
 	private TextField textFieldAppName;
 	@FXML
@@ -69,12 +64,12 @@ public class AddViewController {
 	@FXML
 	public void buttonGenPasswordAction(ActionEvent e) {
 		PassWordSetting passWordSetting = new PassWordSetting();
-		passWordSetting.setHave_number(this.getCheckBoxHaveNumber().isSelected());
-		passWordSetting.setHave_special(this.getCheckBoxHaveSpecial().isSelected());
-		passWordSetting.setHave_chinese(this.getCheckBoxHaveChinese().isSelected());
-		passWordSetting.setPassord_length(((Double)this.getSliderPasswordLength().getValue()).intValue());
+		passWordSetting.setHave_number(this.checkBoxHaveNumber.isSelected());
+		passWordSetting.setHave_special(this.checkBoxHaveSpecial.isSelected());
+		passWordSetting.setHave_chinese(this.checkBoxHaveChinese.isSelected());
+		passWordSetting.setPassord_length(((Double)this.sliderPasswordLength.getValue()).intValue());
 		PassWordEnigine enigine = new PassWordEnigine();
-		this.getTextAreaAccountPassword().setText(enigine.getPassWord(passWordSetting));
+		this.textAreaAccountPassword.setText(enigine.getPassWord(passWordSetting));
 	}
 	@FXML
 	public void buttonSaveAction(ActionEvent e) {
@@ -92,15 +87,15 @@ public class AddViewController {
 	  	this.getHeaderData().setGrade(0);
 	  	this.getHeaderData().setManagerUserPk(LoginPool.getLogin(getClass()));
 	  	this.getHeaderData().setManagerNickName(getManager().getManagerNickName());
-			this.getHeaderData().setAppName(this.getTextFieldAppName().getText());
-			this.getHeaderData().setAppWebUrl(this.getTextFieldAppUrl().getText());
-			this.getHeaderData().setAccountNickName(this.getTextFieldAccountNickName().getText());
+			this.getHeaderData().setAppName(this.textFieldAppName.getText());
+			this.getHeaderData().setAppWebUrl(this.textFieldAppUrl.getText());
+			this.getHeaderData().setAccountNickName(this.textFieldAccountNickName.getText());
 			this.getHeaderData().setSalt(salt);
 			String enitySalt = EncryptEngine.encode(salt.getBytes(), getSaltEncodeData(this.getHeaderData()), getManager().getSalt().getBytes());
-			String accountUserName = EncryptEngine.encode(this.getTextFieldAccountUserName().getText().getBytes(), getEncodeData(this.getHeaderData()), salt.getBytes());
-			String email = EncryptEngine.encode(this.getTextFieldAccountEmail().getText().getBytes(), getEncodeData(this.getHeaderData()), salt.getBytes());
-			String phoneNumber = EncryptEngine.encode(this.getTextFieldAccountPhoneNumber().getText().getBytes(), getEncodeData(this.getHeaderData()), salt.getBytes());
-			String password = EncryptEngine.encode(this.getTextAreaAccountPassword().getText().getBytes(), getEncodeData(this.getHeaderData()), salt.getBytes());
+			String accountUserName = EncryptEngine.encode(this.textFieldAccountUserName.getText().getBytes(), getEncodeData(this.getHeaderData()), salt.getBytes());
+			String email = EncryptEngine.encode(this.textFieldAccountEmail.getText().getBytes(), getEncodeData(this.getHeaderData()), salt.getBytes());
+			String phoneNumber = EncryptEngine.encode(this.textFieldAccountPhoneNumber.getText().getBytes(), getEncodeData(this.getHeaderData()), salt.getBytes());
+			String password = EncryptEngine.encode(this.textAreaAccountPassword.getText().getBytes(), getEncodeData(this.getHeaderData()), salt.getBytes());
 			this.getHeaderData().setSalt(enitySalt);
 			this.getHeaderData().setAccountUserName(accountUserName);
 			this.getHeaderData().setAccountEmail(email);
@@ -117,84 +112,6 @@ public class AddViewController {
     } 
   }
 	
-	public TextField getTextFieldAppName() {
-		return textFieldAppName;
-	}
-	public void setTextFieldAppName(TextField textFieldAppName) {
-		this.textFieldAppName = textFieldAppName;
-	}
-	public TextField getTextFieldAppUrl() {
-		return textFieldAppUrl;
-	}
-	public void setTextFieldAppUrl(TextField textFieldAppUrl) {
-		this.textFieldAppUrl = textFieldAppUrl;
-	}
-	public TextField getTextFieldAccountUserName() {
-		return textFieldAccountUserName;
-	}
-	public void setTextFieldAccountUserName(TextField textFieldAccountUserName) {
-		this.textFieldAccountUserName = textFieldAccountUserName;
-	}
-	public TextField getTextFieldAccountNickName() {
-		return textFieldAccountNickName;
-	}
-	public void setTextFieldAccountNickName(TextField textFieldAccountNickName) {
-		this.textFieldAccountNickName = textFieldAccountNickName;
-	}
-	public TextField getTextFieldAccountEmail() {
-		return textFieldAccountEmail;
-	}
-	public void setTextFieldAccountEmail(TextField textFieldAccountEmail) {
-		this.textFieldAccountEmail = textFieldAccountEmail;
-	}
-	public TextField getTextFieldAccountPhoneNumber() {
-		return textFieldAccountPhoneNumber;
-	}
-	public void setTextFieldAccountPhoneNumber(TextField textFieldAccountPhoneNumber) {
-		this.textFieldAccountPhoneNumber = textFieldAccountPhoneNumber;
-	}
-	public Slider getSliderPasswordLength() {
-		return sliderPasswordLength;
-	}
-	public void setSliderPasswordLength(Slider sliderPasswordLength) {
-		this.sliderPasswordLength = sliderPasswordLength;
-	}
-	public CheckBox getCheckBoxHaveNumber() {
-		return checkBoxHaveNumber;
-	}
-	public void setCheckBoxHaveNumber(CheckBox checkBoxHaveNumber) {
-		this.checkBoxHaveNumber = checkBoxHaveNumber;
-	}
-	public CheckBox getCheckBoxHaveSpecial() {
-		return checkBoxHaveSpecial;
-	}
-	public void setCheckBoxHaveSpecial(CheckBox checkBoxHaveSpecial) {
-		this.checkBoxHaveSpecial = checkBoxHaveSpecial;
-	}
-	public CheckBox getCheckBoxHaveChinese() {
-		return checkBoxHaveChinese;
-	}
-	public void setCheckBoxHaveChinese(CheckBox checkBoxHaveChinese) {
-		this.checkBoxHaveChinese = checkBoxHaveChinese;
-	}
-	public TextArea getTextAreaAccountPassword() {
-		return textAreaAccountPassword;
-	}
-	public void setTextAreaAccountPassword(TextArea textAreaAccountPassword) {
-		this.textAreaAccountPassword = textAreaAccountPassword;
-	}
-	public Button getButtonGenPassword() {
-		return buttonGenPassword;
-	}
-	public void setButtonGenPassword(Button buttonGenPassword) {
-		this.buttonGenPassword = buttonGenPassword;
-	}
-	public Button getButtonSave() {
-		return buttonSave;
-	}
-	public void setButtonSave(Button buttonSave) {
-		this.buttonSave = buttonSave;
-	}
 	public DataPasswordEnity getHeaderData() {
 		return headerData;
 	}
@@ -227,15 +144,7 @@ public class AddViewController {
 		return data;
   }
   
-  private static SysManagerEnity getManager() {
-  	if (headerManager==null) {
-  		SqlSession session = SqliteJDBCUtil.getCurrentSqlSession();
-    	SysManagerMapper mapper = session.getMapper(SysManagerMapper.class);
-    	SysManagerEnity manager = mapper.queryOne(LoginPool.getLogin(AddViewController.class));
-    	headerManager = manager;
-		}
-  	return headerManager;
-  }
+  
 	public int getAddNum() {
 		return addNum;
 	}

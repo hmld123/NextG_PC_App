@@ -11,14 +11,13 @@
 	<children>
       <Button fx:id="buttonBack" layoutX="93.0" layoutY="268.0" mnemonicParsing="false" onAction="#buttonBackAction" text="%regis.view.button.back" />
       <Button fx:id="buttonRegis" layoutX="256.0" layoutY="268.0" mnemonicParsing="false" onAction="#buttonRegisAction" text="%regis.view.button.regis" />
-      <Label fx:id="lableRegisPassword" layoutX="90.0" layoutY="159.0" text="%regis.view.lable.password" />
-      <Label fx:id="lableRegisUsername" layoutX="90.0" layoutY="96.0" text="%regis.view.lable.user_name" />
+      <Label layoutX="90.0" layoutY="159.0" text="%regis.view.lable.password" />
+      <Label layoutX="90.0" layoutY="96.0" text="%regis.view.lable.user_name" />
       <PasswordField fx:id="textFildRegisPassword" layoutX="174.0" layoutY="155.0" prefHeight="24.0" prefWidth="137.0" />
-      <Label fx:id="lableRetryRegisPassword" layoutX="51.0" layoutY="196.0" text="%regis.view.lable.retry_password" />
+      <Label layoutX="51.0" layoutY="196.0" text="%regis.view.lable.retry_password" />
       <PasswordField fx:id="textFildRegisRetryPassword" layoutX="174.0" layoutY="192.0" prefHeight="24.0" prefWidth="137.0" />
       <TextField fx:id="textFildRegisUserName" layoutX="174.0" layoutY="92.0" prefHeight="24.0" prefWidth="137.0" />
-      <Label fx:id="lableRegisNickName" layoutX="90.0" layoutY="128.0" text="%regis.view.lable.nick_name" />
+      <Label layoutX="90.0" layoutY="128.0" text="%regis.view.lable.nick_name" />
       <TextField fx:id="textFildRegisNickName" layoutX="174.0" layoutY="124.0" prefHeight="24.0" prefWidth="137.0" />
-      <TextArea fx:id="textAreaRegisMsg" layoutX="12.0" layoutY="224.0" prefHeight="15.0" prefWidth="376.0" />
    </children>
 </AnchorPane>

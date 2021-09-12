@@ -7,6 +7,9 @@ import com.github.hmld.common.core.enity.base.BaseEnity;
  * 
  */
 public class DataPasswordEnity extends BaseEnity{
+	
+	private Integer pageSize;
+	private Integer pageIndex;
   /** 主键*/
   private String passwordPk;
   /** 父节点主键*/
@@ -255,4 +258,18 @@ public class DataPasswordEnity extends BaseEnity{
         + ", accountNickName=" + accountNickName + ", accountEmail=" + accountEmail + ", accountPhoneNumber="
         + accountPhoneNumber + ", accountPassword=" + accountPassword + ", salt=" + salt + ", useFlg=" + useFlg + "]";
   }
+	public Integer getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+	public Integer getPageIndex() {
+		return pageIndex;
+	}
+	public void setPageIndex(Integer pageIndex) {
+		this.pageIndex = pageIndex;
+	}
+  
+  
 }

@@ -10,10 +10,9 @@
    <children>
       <Button fx:id="buttonRegis" layoutX="93.0" layoutY="268.0" mnemonicParsing="false" onAction="#buttonRegisAction" text="%login.view.button.regis" />
       <Button fx:id="buttonLogin" layoutX="256.0" layoutY="268.0" mnemonicParsing="false" onAction="#buttonLoginAction" text="%login.view.button.login" />
-      <Label fx:id="lableLoginPassword" layoutX="90.0" layoutY="180.0" text="%login.view.lable.password" />
-      <Label fx:id="lableLoginUsername" layoutX="90.0" layoutY="115.0" text="%login.view.lable.user_name" />
+      <Label layoutX="90.0" layoutY="180.0" text="%login.view.lable.password" />
+      <Label layoutX="90.0" layoutY="115.0" text="%login.view.lable.user_name" />
       <PasswordField fx:id="fieldLoginPassword" layoutX="174.0" layoutY="176.0" prefHeight="24.0" prefWidth="137.0" />
       <PasswordField fx:id="fieldLoginUsername" layoutX="174.0" layoutY="111.0" prefHeight="24.0" prefWidth="137.0" />
-      <TextArea fx:id="textAreaLoginMsg" layoutX="12.0" layoutY="224.0" prefHeight="15.0" prefWidth="376.0" text=""/>
    </children>
 </AnchorPane>

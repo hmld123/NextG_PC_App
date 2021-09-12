@@ -19,7 +19,6 @@ import com.github.hmld.core.enity.SysManagerEnity;
 import com.github.hmld.core.mapper.SysManagerMapper;
 import com.github.hmld.core.service.ISysManagerService;
 
-import javafx.scene.control.TextArea;
 /**
  * 用户管理 实现
  * @author hmld
@@ -30,7 +29,7 @@ public class SysManagerServiceImpl implements ISysManagerService {
 	 * 注册用户
 	 */
   @Override
-  public boolean regisUser(TextArea msgArea,SysManagerEnity sysManagerEnity) {
+  public boolean regisUser(SysManagerEnity sysManagerEnity) {
     long creatDate = DateUtils.getNowDate().getTime();
     SqlSession session = SqliteJDBCUtil.getCurrentSqlSession();
     try {
@@ -48,11 +47,11 @@ public class SysManagerServiceImpl implements ISysManagerService {
     	SysManagerMapper mapper = session.getMapper(SysManagerMapper.class);
       mapper.addOne(sysManagerEnity);
       session.commit();
-      msgArea.setText(LoggerUtil.infoMsgI18n(getClass(), "regis.msg","{" + sysManagerEnity.getManagerUserName() + "}注册成功！"));
+      LoggerUtil.infoMsgI18n(getClass(), "regis.msg","{" + sysManagerEnity.getManagerUserName() + "}注册成功！");
     	return true;
     } catch (Exception e) {
       session.rollback();
-      msgArea.setText(LoggerUtil.errorMsgI18n(getClass(), "system.log.error",e.getMessage()));
+      LoggerUtil.errorMsgI18n(getClass(), "system.log.error",e.getMessage());
       return false;
     } 
   }
@@ -61,13 +60,13 @@ public class SysManagerServiceImpl implements ISysManagerService {
    * 登录校验
    */
 	@Override
-	public boolean loginUser(TextArea msgArea,String userName, String passWord) {
+	public boolean loginUser(String userName, String passWord) {
 		if (userName==null || userName.equals("")) {
-			msgArea.setText(LoggerUtil.warnMsgI18n(getClass(), "login.msg", "用户名不能为空！"));
+			LoggerUtil.warnMsgI18n(getClass(), "login.msg", "用户名不能为空！");
 			return false;
 		}
 		if (passWord==null || passWord.equals("")) {
-			msgArea.setText(LoggerUtil.warnMsgI18n(getClass(), "login.msg", "密码不能为空！"));
+			LoggerUtil.warnMsgI18n(getClass(), "login.msg", "密码不能为空！");
 			return false;
 		}
 		SqlSession session = SqliteJDBCUtil.getCurrentSqlSession();
@@ -75,25 +74,25 @@ public class SysManagerServiceImpl implements ISysManagerService {
 			SysManagerMapper mapper = session.getMapper(SysManagerMapper.class);
 			SysManagerEnity manager = mapper.queryOneByUserName(userName);
 			if (manager==null ) {
-				msgArea.setText(LoggerUtil.warnMsgI18n(getClass(), "login.msg", "{" + userName + "}未注册！"));
+				LoggerUtil.warnMsgI18n(getClass(), "login.msg", "{" + userName + "}未注册！");
 	    	return false;
 			}
 			if (EncryptEngine.decode(manager.getManagerPassword().getBytes(), getEncodeData(manager), manager.getSalt().getBytes()).equals(passWord)) {
-				msgArea.setText(LoggerUtil.warnMsgI18n(getClass(), "login.msg","{" + userName + "}登录成功！"));
+				LoggerUtil.warnMsgI18n(getClass(), "login.msg","{" + userName + "}登录成功！");
 				LoginPool.loginIn(getClass(), manager.getManagerUserPk());
 				return true;
 			}
 			else {
-				msgArea.setText(LoggerUtil.warnMsgI18n(getClass(), "login.msg","{" + userName + "}登录失败！"));
+				LoggerUtil.warnMsgI18n(getClass(), "login.msg","{" + userName + "}登录失败！");
 	    	return false;
 			}
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
-			msgArea.setText(LoggerUtil.errorMsgI18n(getClass(), "system.log.error",e.getMessage()));
+			LoggerUtil.errorMsgI18n(getClass(), "system.log.error",e.getMessage());
       return false;
 		} catch (Exception e) {
 			e.printStackTrace();
-			msgArea.setText(LoggerUtil.errorMsgI18n(getClass(), "system.log.error",e.getMessage()));
+			LoggerUtil.errorMsgI18n(getClass(), "system.log.error",e.getMessage());
       return false;
 		}
 	}

@@ -1,7 +1,5 @@
 package com.github.hmld.common.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,14 +62,8 @@ public class MsageUtils {
     try {
       if (msgProperties==null) {
         String msagefilepath = SysDefaultParam.MSG_FILE_FLODER+"/"+SysDefaultParam.MSG_FILE_START_NAME+"_"+Locale.getDefault()+"."+SysDefaultParam.MSG_FILE_SUFFIX;
-        String filepath = MsageUtils.class.getClassLoader().getResource(msagefilepath).getPath();
-        File msgFile = new File(filepath);
-        if (!msgFile.exists()) {
-          msagefilepath = SysDefaultParam.MSG_FILE_FLODER+"/"+SysDefaultParam.MSG_FILE_START_NAME+"."+SysDefaultParam.MSG_FILE_SUFFIX;
-          msgFile = new File(filepath);
-        }
         propertiesUrl = msagefilepath;
-        InputStream in = new FileInputStream(msgFile);
+        InputStream in = MsageUtils.class.getClassLoader().getResourceAsStream(msagefilepath);
         InputStreamReader reader = new InputStreamReader(in,CharsetKit.CHARSET_UTF_8);
         msgProperties = new Properties();
         msgProperties.load(reader);

@@ -1,8 +1,13 @@
 package com.github.hmld.view.passwordmanager.controller;
 
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import com.github.hmld.common.core.emnu.UseFlgEmnu;
+import com.github.hmld.common.core.enity.base.BaseController;
+import com.github.hmld.common.utils.EncryptEngine;
 import com.github.hmld.common.utils.view.ViewUtil;
 import com.github.hmld.core.enity.DataPasswordEnity;
 import com.github.hmld.core.service.IDataPasswordService;
@@ -13,15 +18,20 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -34,10 +44,16 @@ import javafx.util.Callback;
  * @author hmld
  *
  */
-public class PassWordManagerController {
+public class PassWordManagerController extends BaseController implements Initializable {
+	private Integer pageSize = 50;
+	private Integer pageCount = 0;
+	private Integer pageIndex = 0;
+	private DataPasswordEnity serchEmpty = new DataPasswordEnity();
 	private IDataPasswordService passwordService = new DataPasswordServiceImpl();
 	private ObservableList<DataPasswordEnity> list = FXCollections.observableArrayList();
 	@FXML
+	private Pagination pagebar;
+	@FXML 
 	private Button buttonAdd;
 	@FXML
 	private Button buttonEdit;
@@ -45,6 +61,8 @@ public class PassWordManagerController {
 	private Button buttonDel;
 	@FXML
 	private Button buttonQuery;
+	@FXML
+	private TextField textFieldSerchData;
 	@FXML
 	private TableView<DataPasswordEnity> pmDataTable;
 	@FXML
@@ -83,28 +101,127 @@ public class PassWordManagerController {
 	}
 	@FXML
 	public void buttonEditAction(ActionEvent e) {
-		
+		ObservableList<DataPasswordEnity> editEnitys = pmDataTable.getSelectionModel().getSelectedItems();
+		if (editEnitys.size()>=1) {
+			DataPasswordEnity editEnity = editEnitys.get(0);
+			String oldSalt = editEnity.getSalt();
+			Window win = ((Node)e.getSource()).getScene().getWindow();
+			Map<String, Object> viewData = ViewUtil.openToStage(getClass(), "view/passwordmanager/editView/index.fxml");
+			Scene scene = (Scene)viewData.get("scene");
+			EditViewController editController = (EditViewController)viewData.get("controller");
+			editController.initData(editEnity);
+			if (scene!=null) {
+				Stage editStage = new Stage();
+				editStage.initOwner(win);
+				editStage.initModality(Modality.WINDOW_MODAL);
+				editStage.setResizable(false);
+				editStage.setScene(scene);
+				editStage.setTitle("修改密码");
+				editStage.show();
+				editStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+					@Override
+					public void handle(WindowEvent event) {
+						if (editController.geteditNum()>0) {
+							doSearch();
+						}else {
+							editEnity.setSalt(oldSalt);
+						}
+					}
+				});
+			}
+		}
 	}
+	
 	@FXML
 	public void buttonDelAction(ActionEvent e) {
-		
+		ObservableList<DataPasswordEnity> delEnitys = pmDataTable.getSelectionModel().getSelectedItems();
+		if (delEnitys.size()>0) {
+			for (DataPasswordEnity delEmpty : delEnitys) {
+				dataSerivce.delEnity(delEmpty);
+			}
+			doSearch();
+		}
 	}
+	
 	@FXML
 	public void buttonQueryAction(ActionEvent e) {
+		String data = textFieldSerchData.getText();
+		String[] keys = data.split(",");
+		for (String key : keys) {
+			String[] keyVals = key.split(":");
+			String val = keyVals[1].replace("'", "");
+			switch (keyVals[0]) {
+				case "app":
+					this.serchEmpty.setAppName(val);
+					break;
+				case "url":
+					this.serchEmpty.setAppWebUrl(val);
+					break;
+				case "nick":
+					this.serchEmpty.setAccountNickName(val);
+					break;
+				default:
+					break;
+			}
+		}
 		this.doSearch();
+		this.serchEmpty.setAppName(null);
+		this.serchEmpty.setAppWebUrl(null);
+		this.serchEmpty.setAccountNickName(null);
 	}
 	
 	private void doSearch() {
-		getColAppName().setCellValueFactory(new PropertyValueFactory<DataPasswordEnity, String>("appName"));
-		getColAppName().setCellFactory(TextFieldTableCell.forTableColumn());
-		getColAppWebUrl().setCellValueFactory(new PropertyValueFactory<DataPasswordEnity, String>("appWebUrl"));
-		getColAppWebUrl().setCellFactory(TextFieldTableCell.forTableColumn());
-		getColAccountNickName().setCellValueFactory(new PropertyValueFactory<DataPasswordEnity, String>("accountNickName"));
-		getColAccountNickName().setCellFactory(TextFieldTableCell.forTableColumn());
-		getColAccountNickName().setCellValueFactory(new PropertyValueFactory<DataPasswordEnity, String>("accountNickName"));
-		getColAccountNickName().setCellFactory(TextFieldTableCell.forTableColumn());
-		getColUseFlg().setCellValueFactory(new PropertyValueFactory<DataPasswordEnity, Integer>("useFlg"));
-		getColUseFlg().setCellFactory(new Callback<TableColumn<DataPasswordEnity,Integer>, TableCell<DataPasswordEnity,Integer>>() {
+		list.clear();
+		Integer countNum = passwordService.queryCountNum(serchEmpty);
+		pageCount = countNum/pageSize;
+		if (countNum%pageSize!=0) {
+			pageCount++;
+		}
+		pagebar.setPageCount(pageCount);
+		pagebar.setMaxPageIndicatorCount(10);
+		pagebar.setCurrentPageIndex(pageIndex);
+		serchEmpty.setPageSize(pageSize);
+		serchEmpty.setPageIndex(pageIndex);
+		list.addAll(passwordService.queryEnityList(serchEmpty));
+		pmDataTable.refresh();
+		pmDataTable.setItems(list);
+	}
+	private IDataPasswordService dataSerivce = new DataPasswordServiceImpl();
+	/**
+	 * 构建加密密码
+	 * @param manager
+	 * @return
+	 */
+  private static Object getSaltEncodeData(DataPasswordEnity enity) {
+  	Map<String, String> data = new HashMap<String, String>();
+    data.put("managerUserName", getManager().getManagerUserName());
+    data.put("managerSalt", getManager().getSalt());
+    data.put("enity", enity.getPasswordPk());
+		return data;
+  }
+  
+	/**
+	 * 构建加密密码
+	 * @param manager
+	 * @return
+	 */
+  private static Object getEncodeData(DataPasswordEnity enity) {
+  	Map<String, String> data = new HashMap<String, String>();
+    data.put("managerUserName", getManager().getManagerUserName());
+    data.put("managerSalt", getManager().getSalt());
+    data.put("salt", enity.getSalt());
+		return data;
+  }
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		colAppName.setCellValueFactory(new PropertyValueFactory<DataPasswordEnity, String>("appName"));
+		colAppName.setCellFactory(TextFieldTableCell.forTableColumn());
+		colAppWebUrl.setCellValueFactory(new PropertyValueFactory<DataPasswordEnity, String>("appWebUrl"));
+		colAppWebUrl.setCellFactory(TextFieldTableCell.forTableColumn());
+		colAccountNickName.setCellValueFactory(new PropertyValueFactory<DataPasswordEnity, String>("accountNickName"));
+		colAccountNickName.setCellFactory(TextFieldTableCell.forTableColumn());
+		colUseFlg.setCellValueFactory(new PropertyValueFactory<DataPasswordEnity, Integer>("useFlg"));
+		colUseFlg.setCellFactory(new Callback<TableColumn<DataPasswordEnity,Integer>, TableCell<DataPasswordEnity,Integer>>() {
 			@Override
 			public TableCell<DataPasswordEnity, Integer> call(TableColumn<DataPasswordEnity, Integer> param) {
 				TableCell<DataPasswordEnity, Integer> cell = new TableCell<DataPasswordEnity, Integer>(){
@@ -129,7 +246,7 @@ public class PassWordManagerController {
 				return cell;
 			}
 		});
-		getColActions().setCellFactory(new Callback<TableColumn<DataPasswordEnity,String>, TableCell<DataPasswordEnity,String>>() {
+		colActions.setCellFactory(new Callback<TableColumn<DataPasswordEnity,String>, TableCell<DataPasswordEnity,String>>() {
 			@Override
 			public TableCell<DataPasswordEnity, String> call(TableColumn<DataPasswordEnity, String> param) {
 				 TableCell<DataPasswordEnity, String> cell = new TableCell<DataPasswordEnity, String>(){
@@ -138,14 +255,40 @@ public class PassWordManagerController {
 						super.updateItem(item, empty);
 						if (item != null || empty==false) {
 							AnchorPane actionPane = new AnchorPane();
-							Button genButton = new Button("配置密码");
-							genButton.setLayoutX(0);
+							Button copyButton = new Button("复制密码");
+							copyButton.setLayoutX(0);
+							copyButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+								@Override
+								public void handle(MouseEvent event) {
+									try {
+										DataPasswordEnity editEnity = pmDataTable.getItems().get(getIndex());
+										String oldSalt = editEnity.getSalt();
+										String salt = EncryptEngine.decode(oldSalt.getBytes(), getSaltEncodeData(editEnity), getManager().getSalt().getBytes());
+										editEnity.setSalt(salt);
+										String apssword = EncryptEngine.decode(editEnity.getAccountPassword().getBytes(), getEncodeData(editEnity), salt.getBytes());
+										editEnity.setSalt(oldSalt);
+										Clipboard clip = Clipboard.getSystemClipboard();
+										if (clip.hasString()) {
+											Map<DataFormat, Object> content = new HashMap<DataFormat, Object>();
+											content.put(DataFormat.PLAIN_TEXT,apssword);
+											if (clip.setContent(content)) {
+												System.out.println("复制成功");
+											}else {
+												System.out.println("复制失败");
+											}
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+								}
+							});
+							
 							Button editButton = new Button("修改");
 							editButton.setLayoutX(69);
 							editButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 								@Override
 								public void handle(MouseEvent event) {
-									DataPasswordEnity editEnity = getPmDataTable().getItems().get(getIndex());
+									DataPasswordEnity editEnity = pmDataTable.getItems().get(getIndex());
 									String oldSalt = editEnity.getSalt();
 									Window win = ((Node)event.getSource()).getScene().getWindow();
 									Map<String, Object> viewData = ViewUtil.openToStage(getClass(), "view/passwordmanager/editView/index.fxml");
@@ -178,14 +321,14 @@ public class PassWordManagerController {
 							delButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 								@Override
 								public void handle(MouseEvent event) {
-									DataPasswordEnity editEnity = getPmDataTable().getItems().get(getIndex());
+									DataPasswordEnity editEnity = pmDataTable.getItems().get(getIndex());
 									int delNum = passwordService.delEnity(editEnity);
 									if (delNum>0) {
 										doSearch();
 									}
 								}
 							});
-							actionPane.getChildren().addAll(genButton,editButton,delButton);
+							actionPane.getChildren().addAll(copyButton,editButton,delButton);
 							this.setGraphic(actionPane);
 						}
 					}
@@ -193,78 +336,15 @@ public class PassWordManagerController {
 				return cell;
 			}
 		});
-		getPmDataTable().setEditable(true);
-		list.clear();
-		list.addAll(passwordService.queryEnityList(new DataPasswordEnity()));
-		getPmDataTable().setEditable(true);
-		getPmDataTable().setItems(list);
+		pmDataTable.setEditable(true);
+		
+		pagebar.setPageFactory(new Callback<Integer, Node>() {
+			@Override
+			public Node call(Integer param) {
+				pageIndex = param;
+				doSearch();
+				return pmDataTable;
+			}
+		});
 	}
-	
-	public Button getButtonAdd() {
-		return buttonAdd;
-	}
-	public void setButtonAdd(Button buttonAdd) {
-		this.buttonAdd = buttonAdd;
-	}
-	public Button getButtonEdit() {
-		return buttonEdit;
-	}
-	public void setButtonEdit(Button buttonEdit) {
-		this.buttonEdit = buttonEdit;
-	}
-	public Button getButtonDel() {
-		return buttonDel;
-	}
-	public void setButtonDel(Button buttonDel) {
-		this.buttonDel = buttonDel;
-	}
-	public Button getButtonQuery() {
-		return buttonQuery;
-	}
-	public void setButtonQuery(Button buttonQuery) {
-		this.buttonQuery = buttonQuery;
-	}
-	public TableView<DataPasswordEnity> getPmDataTable() {
-		return pmDataTable;
-	}
-	public void setPmDataTable(TableView<DataPasswordEnity> pmDataTable) {
-		this.pmDataTable = pmDataTable;
-	}
-	public IDataPasswordService getPasswordService() {
-		return passwordService;
-	}
-	public void setPasswordService(IDataPasswordService passwordService) {
-		this.passwordService = passwordService;
-	}
-	public TableColumn<DataPasswordEnity, String> getColAppName() {
-		return colAppName;
-	}
-	public void setColAppName(TableColumn<DataPasswordEnity, String> colAppName) {
-		this.colAppName = colAppName;
-	}
-	public TableColumn<DataPasswordEnity, String> getColAppWebUrl() {
-		return colAppWebUrl;
-	}
-	public void setColAppWebUrl(TableColumn<DataPasswordEnity, String> colAppWebUrl) {
-		this.colAppWebUrl = colAppWebUrl;
-	}
-	public TableColumn<DataPasswordEnity, String> getColAccountNickName() {
-		return colAccountNickName;
-	}
-	public void setColAccountNickName(TableColumn<DataPasswordEnity, String> colAccountNickName) {
-		this.colAccountNickName = colAccountNickName;
-	}
-	public TableColumn<DataPasswordEnity, String> getColActions() {
-		return colActions;
-	}
-	public void setColActions(TableColumn<DataPasswordEnity, String> colActions) {
-		this.colActions = colActions;
-	}
-	public TableColumn<DataPasswordEnity, Integer> getColUseFlg() {
-		return colUseFlg;
-	}
-	public void setColUseFlg(TableColumn<DataPasswordEnity, Integer> colUseFlg) {
-		this.colUseFlg = colUseFlg;
-	}
-	
 }

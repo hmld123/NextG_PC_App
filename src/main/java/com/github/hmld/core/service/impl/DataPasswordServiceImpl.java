@@ -36,6 +36,20 @@ public class DataPasswordServiceImpl implements IDataPasswordService {
   	return headerManager;
   }
 	/**
+	 * 查询总个数
+	 */
+	@Override
+	public Integer queryCountNum(DataPasswordEnity enity) {
+		try {
+			SqlSession session = SqliteJDBCUtil.getCurrentSqlSession();
+			DataPasswordMapper mapper = session.getMapper(DataPasswordMapper.class);
+			return mapper.queryCountNum(enity);
+		} catch (Exception e) {
+			LoggerUtil.errorMsgI18n(getClass(), "system.log.error",e.getMessage());
+			return 0;
+		}
+	}
+	/**
 	 * 查询数据
 	 */
 	@Override

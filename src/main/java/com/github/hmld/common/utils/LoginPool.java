@@ -1,5 +1,11 @@
 package com.github.hmld.common.utils;
 
+import org.apache.ibatis.session.SqlSession;
+
+import com.github.hmld.core.enity.SysManagerEnity;
+import com.github.hmld.core.mapper.SysManagerMapper;
+import com.github.hmld.view.passwordmanager.controller.AddViewController;
+
 /**
  * 登录池 支支持一个账户
  * @author hmld
@@ -8,6 +14,15 @@ package com.github.hmld.common.utils;
 public class LoginPool {
 	
 	public static final ThreadLocal<String> loginThread = new ThreadLocal<String>();
+	
+	public static SysManagerEnity getLoginUser(final Class<?> clazz){
+  		SqlSession session = SqliteJDBCUtil.getCurrentSqlSession();
+    	SysManagerMapper mapper = session.getMapper(SysManagerMapper.class);
+    	SysManagerEnity manager = mapper.queryOne(LoginPool.getLogin(AddViewController.class));
+    	LoggerUtil.infoMsgI18n(clazz, "system.log.info","获取登录用户");
+    	return manager;
+	}
+	
 	public static String getLogin(final Class<?> clazz) {
 		ThreadLocal<String> login = getLoginthread(null);
 		if (!StringUtils.isEmpty(login.get())) {

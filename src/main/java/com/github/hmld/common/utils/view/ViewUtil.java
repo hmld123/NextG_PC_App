@@ -10,7 +10,6 @@ import com.github.hmld.common.utils.MsageUtils;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 /**
  * 页面工具类
@@ -25,7 +24,7 @@ public class ViewUtil {
 	 * @param oldStage
 	 * @param viewUrl 页面url
 	 */
-	public static void goToStage(TextArea msgArea,final Class<?> clazz,Stage oldStage ,String viewUrl) {
+	public static void goToStage(final Class<?> clazz,Stage oldStage ,String viewUrl) {
 		try {
       FXMLLoader loader = new FXMLLoader();
       loader.setLocation(loader.getClassLoader().getResource(viewUrl));
@@ -37,7 +36,7 @@ public class ViewUtil {
       LoggerUtil.infoMsgI18n(clazz, "system.jump.view",viewUrl);
     } catch (IOException e1) {
       e1.printStackTrace();
-      msgArea.setText(LoggerUtil.errorMsgI18n(clazz, "system.log.error",e1.getMessage()));
+      LoggerUtil.errorMsgI18n(clazz, "system.log.error",e1.getMessage());
     }
 	}
 	/**
