@@ -149,19 +149,21 @@ public class PassWordManagerController extends BaseController implements Initial
 		String[] keys = data.split(",");
 		for (String key : keys) {
 			String[] keyVals = key.split(":");
-			String val = keyVals[1].replace("'", "");
-			switch (keyVals[0]) {
-				case "app":
-					this.serchEmpty.setAppName(val);
-					break;
-				case "url":
-					this.serchEmpty.setAppWebUrl(val);
-					break;
-				case "nick":
-					this.serchEmpty.setAccountNickName(val);
-					break;
-				default:
-					break;
+			if (keyVals.length==2) {
+				String val = keyVals[1].replace("'", "");
+				switch (keyVals[0]) {
+					case "app":
+						this.serchEmpty.setAppName(val);
+						break;
+					case "url":
+						this.serchEmpty.setAppWebUrl(val);
+						break;
+					case "nick":
+						this.serchEmpty.setAccountNickName(val);
+						break;
+					default:
+						break;
+				}
 			}
 		}
 		this.doSearch();
