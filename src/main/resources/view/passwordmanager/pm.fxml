@@ -4,8 +4,6 @@
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Pagination?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -41,33 +39,23 @@
             <Insets />
          </VBox.margin>
          <children>
-            <TabPane prefHeight="475.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <tabs>
-                <Tab text="%pwmanager.mainview.tab.lable">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TextField fx:id="textFieldSerchData" layoutX="643.0" layoutY="5.0" AnchorPane.rightAnchor="95.4" AnchorPane.topAnchor="5.0" />
-                              <Button fx:id="buttonQuery" layoutX="813.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonQueryAction" text="%pwmanager.mainview.button.search" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="5.0" />
-                              <Button fx:id="buttonAdd" layoutX="14.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonAddAction" text="%pwmanager.mainview.button.add_enity" />
-                              <Button fx:id="buttonEdit" layoutX="78.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonEditAction" text="%pwmanager.mainview.button.edit_enity" />
-                              <Button fx:id="buttonDel" layoutX="142.0" layoutY="5.0" mnemonicParsing="false" onAction="#buttonDelAction" text="%pwmanager.mainview.button.delt_enity" />
-                              <TableView fx:id="pmDataTable" layoutY="34.0" prefHeight="383.0" prefWidth="900.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
-                                <columns>
-                                  <TableColumn fx:id="colAppName" prefWidth="75.0" text="%pwmanager.mainview.tablecol.app_name" />
-                                  <TableColumn fx:id="colAppWebUrl" prefWidth="75.0" text="%pwmanager.mainview.tablecol.app_weburl" />
-                                  <TableColumn fx:id="colAccountNickName" prefWidth="75.0" text="%pwmanager.mainview.tablecol.account_nickname" />
-                                  <TableColumn fx:id="colUseFlg" prefWidth="75.0" text="%pwmanager.mainview.tablecol.use_flg" />
-                                  <TableColumn fx:id="colActions" prefWidth="162.0" text="%pwmanager.mainview.tablecol.actions" />
-                                </columns>
-                              </TableView>
-                              <Pagination fx:id="pagebar" layoutX="15.0" layoutY="3.0" prefHeight="45.0" prefWidth="870.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0" />
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-              </tabs>
-            </TabPane>
+            <Button fx:id="buttonAdd" mnemonicParsing="false" onAction="#buttonAddAction" text="%pwmanager.mainview.button.add_enity" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
+            <Button fx:id="buttonEdit" mnemonicParsing="false" onAction="#buttonEditAction" text="%pwmanager.mainview.button.edit_enity" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="5.0" />
+            <Button fx:id="buttonDel" mnemonicParsing="false" onAction="#buttonDelAction" text="%pwmanager.mainview.button.delt_enity" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="5.0" />
+            <TextField fx:id="textFieldSerchApp" AnchorPane.rightAnchor="402.0" AnchorPane.topAnchor="5.0" />
+            <TextField fx:id="textFieldSerchUrl" AnchorPane.rightAnchor="231.0" AnchorPane.topAnchor="5.0" />
+            <TextField fx:id="textFieldSerchNickName" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="5.0" />
+            <Button fx:id="buttonQuery" mnemonicParsing="false" onAction="#buttonQueryAction" text="%pwmanager.mainview.button.search" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
+            <TableView fx:id="pmDataTable" prefHeight="383.0" prefWidth="900.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+              <columns>
+                <TableColumn fx:id="colAppName" prefWidth="75.0" text="%pwmanager.mainview.tablecol.app_name" />
+                <TableColumn fx:id="colAppWebUrl" prefWidth="75.0" text="%pwmanager.mainview.tablecol.app_weburl" />
+                <TableColumn fx:id="colAccountNickName" prefWidth="75.0" text="%pwmanager.mainview.tablecol.account_nickname" />
+                <TableColumn fx:id="colUseFlg" prefWidth="75.0" text="%pwmanager.mainview.tablecol.use_flg" />
+                <TableColumn fx:id="colActions" prefWidth="162.0" text="%pwmanager.mainview.tablecol.actions" />
+              </columns>
+            </TableView>
+            <Pagination fx:id="pagebar" prefHeight="45.0" prefWidth="870.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0" />
          </children>
       </AnchorPane>
   </children>

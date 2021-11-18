@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import com.github.hmld.common.core.emnu.UseFlgEmnu;
 import com.github.hmld.common.core.enity.base.BaseController;
 import com.github.hmld.common.utils.EncryptEngine;
+import com.github.hmld.common.utils.MsageUtils;
 import com.github.hmld.common.utils.view.ViewUtil;
 import com.github.hmld.core.enity.DataPasswordEnity;
 import com.github.hmld.core.service.IDataPasswordService;
@@ -62,7 +63,11 @@ public class PassWordManagerController extends BaseController implements Initial
 	@FXML
 	private Button buttonQuery;
 	@FXML
-	private TextField textFieldSerchData;
+	private TextField textFieldSerchApp;
+	@FXML
+	private TextField textFieldSerchUrl;
+	@FXML
+	private TextField textFieldSerchNickName;
 	@FXML
 	private TableView<DataPasswordEnity> pmDataTable;
 	@FXML
@@ -87,7 +92,7 @@ public class PassWordManagerController extends BaseController implements Initial
 			addStage.initModality(Modality.WINDOW_MODAL);
 			addStage.setResizable(false);
 			addStage.setScene(scene);
-			addStage.setTitle("新增密码");
+			addStage.setTitle(MsageUtils.getMsg("pwmanager.addview.title"));
 			addStage.show();
 			addStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				@Override
@@ -116,7 +121,7 @@ public class PassWordManagerController extends BaseController implements Initial
 				editStage.initModality(Modality.WINDOW_MODAL);
 				editStage.setResizable(false);
 				editStage.setScene(scene);
-				editStage.setTitle("修改密码");
+				editStage.setTitle(MsageUtils.getMsg("pwmanager.editview.title"));
 				editStage.show();
 				editStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 					@Override
@@ -145,27 +150,12 @@ public class PassWordManagerController extends BaseController implements Initial
 	
 	@FXML
 	public void buttonQueryAction(ActionEvent e) {
-		String data = textFieldSerchData.getText();
-		String[] keys = data.split(",");
-		for (String key : keys) {
-			String[] keyVals = key.split(":");
-			if (keyVals.length==2) {
-				String val = keyVals[1].replace("'", "");
-				switch (keyVals[0]) {
-					case "app":
-						this.serchEmpty.setAppName(val);
-						break;
-					case "url":
-						this.serchEmpty.setAppWebUrl(val);
-						break;
-					case "nick":
-						this.serchEmpty.setAccountNickName(val);
-						break;
-					default:
-						break;
-				}
-			}
-		}
+		String app = textFieldSerchApp.getText();
+		String url = textFieldSerchUrl.getText();
+		String nickName = textFieldSerchNickName.getText();
+		this.serchEmpty.setAppName(app);
+		this.serchEmpty.setAppWebUrl(url);
+		this.serchEmpty.setAccountNickName(nickName);
 		this.doSearch();
 		this.serchEmpty.setAppName(null);
 		this.serchEmpty.setAppWebUrl(null);
@@ -175,6 +165,9 @@ public class PassWordManagerController extends BaseController implements Initial
 	private void doSearch() {
 		list.clear();
 		Integer countNum = passwordService.queryCountNum(serchEmpty);
+		if (countNum.equals(0)) {
+			countNum = 0;
+		}
 		pageCount = countNum/pageSize;
 		if (countNum%pageSize!=0) {
 			pageCount++;
@@ -216,6 +209,9 @@ public class PassWordManagerController extends BaseController implements Initial
   }
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		textFieldSerchApp.setPromptText(MsageUtils.getMsg("pwmanager.mainview.tablecol.app_name"));
+		textFieldSerchUrl.setPromptText(MsageUtils.getMsg("pwmanager.mainview.tablecol.app_name"));
+		textFieldSerchNickName.setPromptText(MsageUtils.getMsg("pwmanager.mainview.tablecol.account_nickname"));
 		colAppName.setCellValueFactory(new PropertyValueFactory<DataPasswordEnity, String>("appName"));
 		colAppName.setCellFactory(TextFieldTableCell.forTableColumn());
 		colAppWebUrl.setCellValueFactory(new PropertyValueFactory<DataPasswordEnity, String>("appWebUrl"));
