@@ -16,14 +16,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	   <dataSource type="POOLED">
 	     <property name="driver" value="org.sqlite.JDBC"/>
 	     <property name="url" value="jdbc:sqlite:./data.db"/>
-        <property name="username" value="hmld"/>
-        <property name="password" value="qazWSXedc712"/>
+        <property name="username" value=""/>
+        <property name="password" value=""/>
 	   </dataSource>
 	 </environment>
 	</environments>
 	
   <mappers>
-   <mapper resource="com/github/hmld/core/mapper/SysManagerMapper.xml"/>
-   <mapper resource="com/github/hmld/core/mapper/DataPasswordMapper.xml"/>
+   <mapper resource="mapper/SysManagerMapper.xml"/>
+   <mapper resource="mapper/DataPasswordMapper.xml"/>
   </mappers>
 </configuration>
