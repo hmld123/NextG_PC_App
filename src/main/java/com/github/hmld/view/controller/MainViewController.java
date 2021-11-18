@@ -67,6 +67,8 @@ public class MainViewController implements Initializable{
   		msgConsole.appendText("登录成功!");
     	Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
     	ViewUtil.goToStage(getClass(), oldStage, "view/passwordmanager/pm.fxml");
+		}else {
+			msgConsole.appendText(MsageUtils.getMsg("login.view.lable.user_name")+" "+userName+" 未注册或"+MsageUtils.getMsg("login.view.lable.password")+"不正确！");
 		}
   }
   
