@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 public class MainView extends Application {
@@ -36,6 +37,7 @@ public class MainView extends Application {
 				LoggerUtil.infoMsgI18n(getClass(),"system.log.info", "Session is close!");
 			}
 		});
+//    stage.initStyle(StageStyle.UNDECORATED);
     stage.show();
   }
 

@@ -46,6 +46,7 @@ import javafx.util.Callback;
  *
  */
 public class PassWordManagerController extends BaseController implements Initializable {
+	private IDataPasswordService dataSerivce = new DataPasswordServiceImpl();
 	private Integer pageSize = 50;
 	private Integer pageCount = 0;
 	private Integer pageIndex = 0;
@@ -80,7 +81,7 @@ public class PassWordManagerController extends BaseController implements Initial
 	private TableColumn<DataPasswordEnity, Integer> colUseFlg;// 使用状态
 	@FXML
 	private TableColumn<DataPasswordEnity, String> colActions;
-	@FXML
+	
 	public void buttonAddAction(ActionEvent e) {
 		Window win = ((Node)e.getSource()).getScene().getWindow();
 		Map<String, Object> viewData = ViewUtil.openToStage(getClass(), "view/passwordmanager/addView/index.fxml");
@@ -93,7 +94,6 @@ public class PassWordManagerController extends BaseController implements Initial
 			addStage.setResizable(false);
 			addStage.setScene(scene);
 			addStage.setTitle(MsageUtils.getMsg("pwmanager.addview.title"));
-			addStage.show();
 			addStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent event) {
@@ -102,9 +102,10 @@ public class PassWordManagerController extends BaseController implements Initial
 					}
 				}
 			});
+			addStage.show();
 		}
 	}
-	@FXML
+	
 	public void buttonEditAction(ActionEvent e) {
 		ObservableList<DataPasswordEnity> editEnitys = pmDataTable.getSelectionModel().getSelectedItems();
 		if (editEnitys.size()>=1) {
@@ -137,7 +138,7 @@ public class PassWordManagerController extends BaseController implements Initial
 		}
 	}
 	
-	@FXML
+	
 	public void buttonDelAction(ActionEvent e) {
 		ObservableList<DataPasswordEnity> delEnitys = pmDataTable.getSelectionModel().getSelectedItems();
 		if (delEnitys.size()>0) {
@@ -148,7 +149,7 @@ public class PassWordManagerController extends BaseController implements Initial
 		}
 	}
 	
-	@FXML
+	
 	public void buttonQueryAction(ActionEvent e) {
 		String app = textFieldSerchApp.getText();
 		String url = textFieldSerchUrl.getText();
@@ -166,7 +167,7 @@ public class PassWordManagerController extends BaseController implements Initial
 		list.clear();
 		Integer countNum = passwordService.queryCountNum(serchEmpty);
 		if (countNum.equals(0)) {
-			countNum = 0;
+			countNum = 1;
 		}
 		pageCount = countNum/pageSize;
 		if (countNum%pageSize!=0) {
@@ -178,10 +179,10 @@ public class PassWordManagerController extends BaseController implements Initial
 		serchEmpty.setPageSize(pageSize);
 		serchEmpty.setPageIndex(pageIndex);
 		list.addAll(passwordService.queryEnityList(serchEmpty));
-		pmDataTable.refresh();
 		pmDataTable.setItems(list);
+		pmDataTable.refresh();
 	}
-	private IDataPasswordService dataSerivce = new DataPasswordServiceImpl();
+
 	/**
 	 * 构建加密密码
 	 * @param manager
@@ -207,6 +208,7 @@ public class PassWordManagerController extends BaseController implements Initial
     data.put("salt", enity.getSalt());
 		return data;
   }
+  
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		textFieldSerchApp.setPromptText(MsageUtils.getMsg("pwmanager.mainview.tablecol.app_name"));

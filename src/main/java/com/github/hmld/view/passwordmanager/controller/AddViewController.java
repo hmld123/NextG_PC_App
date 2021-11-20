@@ -25,11 +25,13 @@ import com.github.hmld.pwm.enigine.config.PassWordSetting;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class AddViewController extends BaseController{
 	private IDataPasswordService dataSerivce = new DataPasswordServiceImpl();
@@ -61,7 +63,7 @@ public class AddViewController extends BaseController{
 	private Button buttonGenPassword;
 	@FXML
 	private Button buttonSave;
-	@FXML
+	
 	public void buttonGenPasswordAction(ActionEvent e) {
 		PassWordSetting passWordSetting = new PassWordSetting();
 		passWordSetting.setHave_number(this.checkBoxHaveNumber.isSelected());
@@ -71,7 +73,7 @@ public class AddViewController extends BaseController{
 		PassWordEnigine enigine = new PassWordEnigine();
 		this.textAreaAccountPassword.setText(enigine.getPassWord(passWordSetting));
 	}
-	@FXML
+	
 	public void buttonSaveAction(ActionEvent e) {
     try {
     	if (LoginPool.getLogin(getClass())==null || StringUtils.isEmpty(LoginPool.getLogin(getClass()))) {
@@ -107,6 +109,8 @@ public class AddViewController extends BaseController{
 			this.getHeaderData().setUseFlg(UseFlgEmnu.USE_TYPE);
 			this.addNum = dataSerivce.addEnity(this.getHeaderData());
 			LoggerUtil.infoMsgI18n(getClass(), "system.log.info","成功添加["+addNum+"]条");
+			Stage thisStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+			thisStage.close();
     } catch (Exception ex) {
     	LoggerUtil.errorMsgI18n(getClass(), "system.log.error",ex.getMessage());
     } 
